@@ -124,6 +124,7 @@
                         <choose-clear
                             icon="copy"
                             position="prepend"
+                            @click="copyInviteLink"
                         >
                             {{ t('detail_copy_link') }}
                         </choose-clear>
@@ -162,6 +163,7 @@ import {useEventStore} from "../../../stores/Event.store";
 import ChooseFriends from "../../../components/dialog/choose-friends.vue";
 import {useToastStore} from "../../../stores/Toast.store";
 import { useI18n } from "vue-i18n";
+import { useGlobalStore } from "../../../stores/Global.store";
 
 let totalStep = ref(3);
 let step = ref(1);
@@ -210,6 +212,14 @@ const availableRepetition = [
     { value: 'monthly', text: t('global_monthly') },
     { value: 'yearly', text: t('global_yearly') },
 ]
+
+const copyInviteLink = () => {
+    const inviteLink = `${useGlobalStore.appUrl}/join/${event.value.inviteToken}`
+
+    navigator.clipboard.writeText(inviteLink)
+
+    useToastStore().success({ key: 'banner_copy_invite_link' });
+}
 
 const selectFolder = (id: number) => {
     if (id) {

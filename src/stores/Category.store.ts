@@ -54,6 +54,19 @@ export const useCategoryStore = defineStore({
                 this.categories[index] = new Category(response.data);
             }
             return true;
+        },
+        async deleteCategory(id: number) {
+            const response = await useApiService.delete(`/categories/${id}`);
+            if (!response.success) {
+                useToastStore().error({ key: 'toast_error_deleting_category' });
+                return false;
+            }
+            this.categories = this.categories.filter(category => category.id !== id);
+
+            if (this.selectedCategoryId === id) {
+                this.selectedCategoryId = -1;
+            }
+            return true;
         }
     },
 });

@@ -5,6 +5,8 @@ import {useUserStore} from "./User.store";
 import {SocketService} from "../services/socket.services";
 
 export class useGlobalStore {
+    static appUrl = 'https://app.evently-app.fr'
+
     static async init () {
         await Promise.all([
             useCategoryStore().fetchCategories(),

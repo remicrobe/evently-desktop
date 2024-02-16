@@ -120,5 +120,9 @@ const selectedBackgroundStyle = computed(() => {
         width: 18px;
         height: 18px;
     }
+
+    .text-container {
+        margin-right: -8px;
+    }
 }
 </style>

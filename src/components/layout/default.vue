@@ -29,15 +29,20 @@
                             </template>
                         </create-folder>
 
-                        <choose-plain
-                            icon="trash"
-                            position="prepend"
-                            color="red"
-                            icon-color="white"
-                            class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
-                        >
-                            {{ t('detail_delete') }}
-                        </choose-plain>
+                        <delete-folder :folder-id="folderStore.selectedFolderId">
+                            <template v-slot:activator="{ openDialog }">
+                                <choose-plain
+                                    @click="openDialog"
+                                    icon="trash"
+                                    position="prepend"
+                                    color="red"
+                                    icon-color="white"
+                                    class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
+                                >
+                                    {{ t('detail_delete') }}
+                                </choose-plain>
+                            </template>
+                        </delete-folder>
                     </div>
 
                     <div class="d-inline-flex mr-3" v-if="categoryStore.selectedCategoryId !== -1 && !categoryStore.selectedCategory?.default">
@@ -55,16 +60,21 @@
                             </template>
                         </create-category>
 
-                        <choose-plain
-                            icon="trash"
-                            position="prepend"
-                            color="#B72A12"
-                            icon-color="white"
-                            class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
-                            style="background: linear-gradient(180deg, #E53517 0%, #B72A12 100%);"
-                        >
-                            {{ t('detail_delete') }}
-                        </choose-plain>
+                        <delete-category :category-id="categoryStore.selectedCategoryId">
+                            <template v-slot:activator="{ openDialog }">
+                                <choose-plain
+                                    @click="openDialog"
+                                    icon="trash"
+                                    position="prepend"
+                                    color="#B72A12"
+                                    icon-color="white"
+                                    class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
+                                    style="background: linear-gradient(180deg, #E53517 0%, #B72A12 100%);"
+                                >
+                                    {{ t('detail_delete') }}
+                                </choose-plain>
+                            </template>
+                        </delete-category>
                     </div>
                 </v-col>
 
@@ -93,15 +103,22 @@ import { useI18n } from "vue-i18n";
 import CreateCategory from "../dialog/create-category.vue";
 import CreateFolder from "../dialog/create-folder.vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../../stores/User.store";
+import DeleteFolder from "../dialog/delete-folder.vue";
+import DeleteCategory from "../dialog/delete-category.vue";
 const { t, locale } = useI18n({ useScope: 'global' });
 
 const categoryStore = useCategoryStore()
 const folderStore = useFolderStore()
+const userStore = useUserStore();
 const router = useRouter()
 
 const showButton = computed(() => {
+    const selectedFolder = folderStore.selectedFolder?.userID;
+    const connectedUser = userStore.user.id;
+
     return (folderStore.selectedFolderId === -1 && (categoryStore.selectedCategoryId !== -1 && !categoryStore.selectedCategory?.default)) ||
-        (folderStore.selectedFolderId !== -1 && categoryStore.selectedCategoryId === -1);
+        ((folderStore.selectedFolderId !== -1 && (selectedFolder === connectedUser)) && categoryStore.selectedCategoryId === -1);
 })
 </script>
 

@@ -4,6 +4,7 @@ export class Folder {
     id: number | undefined;
     name: string | undefined;
     inviteToken: string | undefined;
+    userID: number | undefined;
     user: User | undefined;
     friends: string[] = [];
     joinedUser: User[] = [];
@@ -14,6 +15,7 @@ export class Folder {
         this.id = object?.id;
         this.name = object?.name;
         this.inviteToken = object?.inviteToken;
+        this.userID = object?.userID;
         this.user = object?.user ? new User(object.user) : undefined;
         this.friends = object?.friends ?? [];
 
