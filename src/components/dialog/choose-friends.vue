@@ -38,14 +38,19 @@
 
                 <v-col md="12" cols="12" class="text-white text-center">
                     <span>{{ t('add_friends_can_create') }}</span>
-                    <choose-plain
-                        class="mt-2"
-                        color="white"
-                        icon="plusCircle"
-                        icon-color="black"
-                        position="prepend"
-                        :placeholder="t('add_friends_label')"
-                    ></choose-plain>
+                    <add-friend>
+                        <template v-slot:activator="{ openDialog }">
+                            <choose-plain
+                                @click="openDialog"
+                                class="mt-2"
+                                color="white"
+                                icon="plusCircle"
+                                icon-color="black"
+                                position="prepend"
+                                :placeholder="t('add_friends_label')"
+                            ></choose-plain>
+                        </template>
+                    </add-friend>
                     <v-divider class="mt-5"></v-divider>
                 </v-col>
 
@@ -82,6 +87,7 @@ import Completed from "../text-field/completed.vue";
 import {useUserStore} from "../../stores/User.store";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
+import AddFriend from "./add-friend.vue";
 
 const userStore = useUserStore();
 const search = ref("");
@@ -90,6 +96,12 @@ const emit = defineEmits(["friendRemoved", "friendAdded"]);
 const { t, locale } = useI18n({ useScope: 'global' });
 
 const windowWidth = ref(useDisplay().width);
+
+const props = defineProps<{ selectedFriendUsername?: string[] }>();
+
+if (props.selectedFriendUsername && props.selectedFriendUsername.length > 0) {
+    selectedFriendUsername.value = props.selectedFriendUsername;
+}
 
 const dialogWidth = computed(() => (windowWidth.value < 1200 ? "90%" : "50%"));
 

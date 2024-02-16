@@ -4,15 +4,13 @@
         <p class="content-m-semibold text-start">{{
                 t('detail_share_link')
             }}</p>
-        <div class="link content-h5 mt-10 mb-10">evently.app/jhzo78fe</div>
-<!--        <button class="button" @click="copyLink">-->
-<!--            <img src="@/assets/copy-icon.png" alt="Copier" />-->
-<!--            Copier le lien d’invitation-->
-<!--        </button>-->
+        <div class="link content-h5 mt-10 mb-10">{{ inviteLink }}</div>
 
         <choose-plain
             class="mb-n2"
             icon="copy"
+            position="prepend"
+            @click="copyInviteLink"
             :placeholder="t('detail_copy_link')"
         ></choose-plain>
     </div>
@@ -21,8 +19,26 @@
 <script setup lang="ts">
 import ChoosePlain from "../button/choose-plain.vue";
 import { useI18n } from "vue-i18n";
+import { useGlobalStore } from "../../stores/Global.store";
+import { useToastStore } from "../../stores/Toast.store";
+import { defineProps } from "vue";
 
 const { t, locale } = useI18n({ useScope: 'global' });
+
+const props = defineProps({
+    inviteToken: {
+        type: String,
+        default: 'XXXXX'
+    },
+})
+
+const inviteLink = `${useGlobalStore.appUrl}/join/${props.inviteToken}`
+
+const copyInviteLink = () => {
+    navigator.clipboard.writeText(inviteLink)
+
+    useToastStore().success({ key: 'banner_copy_invite_link' });
+}
 </script>
 
 <style scoped>

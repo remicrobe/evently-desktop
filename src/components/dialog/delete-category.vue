@@ -21,33 +21,33 @@
                             >
                                 <custom-icons icon="folder" :size="38" color="white" class="mr-1"></custom-icons>
                             </v-avatar>
-                            <span class="content-h4 ma-auto ml-2">{{ folder.id ? t('edit_folder') : t('create_folder') }}</span>
+                            <span class="content-h4 ma-auto ml-2">{{ t('delete_category') }}</span>
                         </v-col>
                     </v-row>
                 </v-col>
 
-                <v-col md="12" cols="12" class="text-white text-start justify-end d-flex flex-row" align-self="end">
-                    <div class="mr-4" style="flex-grow: 1;">
-                        <span>{{ t('global_name') }}</span>
-                        <completed v-model="folder.name" :placeholder="t('add_folder_placeholder')" style="width: 100%;"></completed>
-                    </div>
-
-                    <div style="flex-grow: 1;">
-                        <span>{{ t('global_friends') }}</span>
-                        <choose-friends
-                            :selected-friend-username="folder.friends"
-                            @friend-added="(username) => folder.friends.push(username)"
-                            @friend-removed="(username) => folder.friends = folder.friends.filter(f => f !== username)"
-                        ></choose-friends>
-                    </div>
+                <v-col md="12" cols="12" class="text-white text-start justify-end" align-self="end">
+                    <span>{{ t('global_delete_confirm') }}</span>
                 </v-col>
 
-                <v-col md="12" cols="12" class="mt-2">
+                <v-col md="6" cols="6" class="mt-2">
                     <choose-plain
                         color="black-black200"
                         class="text-white"
-                        :placeholder="folder.id ? t('add_folder_save') : t('add_folder_create')"
-                        @click="save"
+                        :placeholder="t('add_event_cancel')"
+                        @click="dialog = false"
+                    ></choose-plain>
+                </v-col>
+
+                <v-col md="6" cols="6" class="mt-2">
+                    <choose-plain
+                        icon-color="white"
+                        icon="trash"
+                        position="prepend"
+                        color="red"
+                        class="text-white"
+                        :placeholder="t('global_delete')"
+                        @click="deleteCategory"
                     ></choose-plain>
                 </v-col>
             </v-row>
@@ -60,33 +60,25 @@
 import { computed, onMounted, onUnmounted, ref, defineEmits } from "vue";
 import ChoosePlain from "../button/choose-plain.vue";
 import CustomIcons from "../custom-icons.vue";
-import Completed from "../text-field/completed.vue";
 import {ColorUtils} from "../../utils/color.utils";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
-import { Category } from "../../models/Category.model";
-import { useFolderStore } from "../../stores/Folder.store";
-import { Folder } from "../../models/Folder.model";
-import ChooseFriends from "./choose-friends.vue";
+import { useUserStore } from "../../stores/User.store";
+import { useCategoryStore } from "../../stores/Category.store";
 const { t, locale } = useI18n({ useScope: 'global' });
 
 const props = defineProps({
-    id: {
+    categoryId: {
         type: Number,
-        required: false,
+        required: true,
     },
 })
 
-onMounted(() => {
-    if (props.id) {
-        folder.value = new Folder(folderStore.getFolderById(props.id));
-    }
-})
-
-const folderStore = useFolderStore();
+const userStore = useUserStore();
+const categoryStore = useCategoryStore();
 
 let dialog = ref(false);
-let folder = ref(new Folder());
+let friend = ref('')
 
 const makeItFade = (originalColor: string) => {
     return ColorUtils.adjustLightness(originalColor, -10)
@@ -95,13 +87,8 @@ const windowWidth = ref(useDisplay().width);
 
 const dialogWidth = computed(() => (windowWidth.value < 1200 ? "90%" : "50%"));
 
-const save = async () => {
-    if (folder.value.id) {
-        await folderStore.updateFolder(folder.value.id, folder.value);
-    } else {
-        await folderStore.createFolder(folder.value);
-    }
-    dialog.value = false;
+const deleteCategory = () => {
+    categoryStore.deleteCategory(props.categoryId)
 }
 </script>
 

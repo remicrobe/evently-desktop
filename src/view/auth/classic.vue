@@ -3,7 +3,7 @@
         class="fill-height"
         fluid
     >
-        <v-row justify="center" align="center" class="justify-center align-center ma-auto">
+        <v-row justify="center" align="center" class="justify-center align-center ma-auto" >
             <v-col md="5" cols="12" class="onboarding-card text-start">
                 <v-row class="ma-3">
                     <v-col md="12" cols="12">
@@ -60,6 +60,10 @@
             </v-col>
         </v-row>
     </v-container>
+
+    <choose-clear class="cancel-button border-0 hide-mobile-icon" color="black-black100 pa-6" icon="xmark" position="prepend" @click="router.back()">
+        {{t('global_back')}}
+    </choose-clear>
 </template>
 
 <script setup lang="ts">
@@ -73,8 +77,10 @@ import { useToastStore } from "../../stores/Toast.store";
 import { useGlobalStore } from "../../stores/Global.store";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
+import ChooseClear from "../../components/button/choose-clear.vue";
 
 const { t, locale } = useI18n({ useScope: 'global' });
+const router = useRouter();
 const userStore = useUserStore();
 const toast = useToastStore();
 const firstName = ref();
@@ -82,7 +88,6 @@ const password = ref();
 const confirmPassword = ref();
 const lastName = ref();
 const email = ref();
-const router = useRouter();
 const needRegister = ref(false);
 const needLogin = ref(false);
 
@@ -169,5 +174,18 @@ watch(() => email.value, () => {
     border: 1px solid rgb(var(--v-theme-black-black200));
     border-radius: 32px;
     background-color: rgb(var(--v-theme-black-black100));
+}
+
+.cancel-button {
+    position: fixed;
+    top: 25px;
+    right: 20px;
+    border: none;
+    max-width: 275px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

@@ -5,6 +5,8 @@ import { useFolderStore } from "./Folder.store";
 import { useCategoryStore } from "./Category.store";
 import { useUserStore } from "./User.store";
 import { useToastStore } from "./Toast.store";
+import {Category} from "../models/Category.model";
+import {DateTime} from "luxon";
 
 
 export const useEventStore = defineStore({
@@ -22,11 +24,17 @@ export const useEventStore = defineStore({
             const selectedCategoryId = categoryStore.selectedCategoryId;
             const userId = userStore.user.id;
 
-            return this.events.filter(event =>
-                (selectedCategoryId === -1 || event.categoryID === selectedCategoryId) &&
-                (selectedFolderId === -1 || event.folderID === selectedFolderId) &&
-                (!this.onlyMine || event.userID === userId)
-            );
+            const today = DateTime.local().startOf('day');
+
+            return this.events.filter(event => {
+                const eventDate = DateTime.fromJSDate(event.targetDate!);
+                return (
+                    (selectedCategoryId === -1 || event.categoryID === selectedCategoryId) &&
+                    (selectedFolderId === -1 || event.folderID === selectedFolderId) &&
+                    (!this.onlyMine || event.userID === userId) &&
+                    eventDate >= today
+                );
+            });
         }
     },
     actions: {
@@ -39,7 +47,9 @@ export const useEventStore = defineStore({
             this.events.push(new Event(response.data));
             return true;
         },
-
+        getEventById(id: number): Event | undefined {
+            return this.events.find(e => e.id === id);
+        },
         async fetchEvents() {
             const response = await useApiService.get('/events');
             if (!response.success) {

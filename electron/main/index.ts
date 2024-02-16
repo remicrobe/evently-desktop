@@ -231,15 +231,15 @@ ipcMain.on('auth', async (event, oauthUrl) => {
 })
 
 // Gestion des mises à jour via electron-updater, en récupérant la version depuis GitHub
-autoUpdater.on('update-available', () => {
-    if (win) {
-        win.webContents.send('update-available');
-    }
-});
+// autoUpdater.on('update-available', () => {
+//     if (win) {
+//         win.webContents.send('update-available');
+//     }
+// });
 
 autoUpdater.on('update-downloaded', () => {
     if (win) {
-        win.webContents.send('update-downloaded');
+        win.webContents.send('update-available');
     }
 });
 

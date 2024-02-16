@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { User } from "./User.model";
 import { RandomUtils } from "../utils/random.utils";
+import {Category} from "./Category.model";
 
 export class Event {
     id: number | undefined;
@@ -14,6 +15,7 @@ export class Event {
     targetDate: Date | undefined;
     inviteToken: string | undefined;
     categoryID: number | undefined;
+    category: Category | undefined;
     userID: number | undefined;
     user: User | undefined;
     folderID: number | undefined;
@@ -28,17 +30,20 @@ export class Event {
         this.description = object?.description;
         this.location = object?.location;
         this.isReccuring = object?.isReccuring;
-        this.recurrencePattern = object?.recurrencePattern ?? 'none';
+        this.recurrencePattern = object?.recurrencePattern ?? 'unique';
         this.interval = object?.interval;
         this.maxOccurence = object?.maxOccurence;
         this.targetDate = new Date(object?.targetDate!);
         this.inviteToken = object?.inviteToken ?? RandomUtils.generateInviteToken();
         this.categoryID = object?.categoryID;
+        this.category = new Category(object?.category);
         this.userID = object?.userID;
         this.user = object?.user ? new User(object.user) : undefined;
         this.friends = object?.friends ?? [];
         this.folderID = object?.folderID;
         if (object?.joinedUser) {
+            this.friends = [];
+            this.joinedUser = [];
             for (const user of object.joinedUser) {
                 this.joinedUser.push(new User(user));
                 this.friends.push(user.username!);

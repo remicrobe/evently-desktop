@@ -1,7 +1,7 @@
 <template>
     <default></default>
 
-    <v-row justify="center" align="center" class="mr-5 ml-5">
+    <v-row justify="center" align="center" class="mr-5 ml-5 mb-15">
         <v-col md="7" cols="12" class="text-lg-center text-left mt-10">
             <v-avatar
                 class="rounded mt-n4"
@@ -12,7 +12,7 @@
                 <custom-icons icon="calendar" :size="38" color="white" class="mr-1"></custom-icons>
             </v-avatar>
 
-            <span class="content-h4 ma-auto ml-2">{{ t('home_add_event') }}</span>
+            <span class="content-h4 ma-auto ml-2">{{ event.id ? t('home_update_event') : t('home_add_event') }}</span>
         </v-col>
 
         <v-col md="7" cols="12">
@@ -37,15 +37,21 @@
             </v-col>
 
             <v-col md="7" cols="12" class="mt-n5">
-                <v-row no-gutters>
+                <v-row>
                     <v-col md="6" cols="12">
                         <span>{{ t('add_event_category') }}</span>
-                        <choose-category @category-selected="(id) => event.categoryID = id"></choose-category>
+                        <choose-category
+                            :selected-category-id="event.categoryID"
+                            @category-selected="(id) => event.categoryID = id"
+                        ></choose-category>
                     </v-col>
 
-                    <v-col md="6" cols="12" class="mt-5 mt-md-0 ml-md-2 mr-md-n2 ml-sm-0 mr-sm-0">
+                    <v-col md="6" cols="12" class="mt-5 mt-md-0 ml-sm-0 mt-n1 mr-sm-0">
                         <span>{{ t('add_event_folder_shared') }}</span>
-                        <choose-folder @folder-selected="(id) => selectFolder(id)"></choose-folder>
+                        <choose-folder
+                            :selected-folder-id="event.folderID"
+                            @folder-selected="(id) => selectFolder(id)"
+                        ></choose-folder>
                     </v-col>
                 </v-row>
             </v-col>
@@ -53,11 +59,11 @@
 
         <template v-if="step === 2">
             <v-col md="7" cols="12" class="mt-5">
-                <v-row no-gutters>
+                <v-row>
                     <v-col md="6" cols="12">
                         <span >{{ t('add_event_choose_date') }}</span>
 
-                        <v-menu>
+                        <v-menu :close-on-content-click="false">
                             <template v-slot:activator="{ props }">
                                 <choose-clear
                                     icon="calendar"
@@ -72,7 +78,7 @@
                         </v-menu>
                     </v-col>
 
-                    <v-col md="6" cols="12" class="mt-5 mt-md-0 ml-md-2 mr-md-n2 ml-sm-0 mr-sm-0">
+                    <v-col md="6" cols="12" class="mt-5 mt-md-0 mt-n1 ml-sm-0 mr-sm-0">
                         <span>{{ t('add_event_reccurence') }}</span>
                         <v-menu>
                             <template v-slot:activator="{ props }">
@@ -103,20 +109,22 @@
 
         <template v-if="step === 3">
             <v-col md="7" cols="12" class="mt-5">
-                <v-row no-gutters>
+                <v-row>
                     <v-col md="6" cols="12">
                         <span >{{ t('global_friends') }}</span>
                         <choose-friends
+                            :selected-friend-username="event.friends"
                             @friend-added="(username) => event.friends.push(username)"
                             @friend-removed="(username) => event.friends = event.friends.filter(f => f !== username)"
                         ></choose-friends>
                     </v-col>
 
-                    <v-col md="6" cols="12" class="mt-5 mt-md-0 ml-md-2 mr-md-n2 ml-sm-0 mr-sm-0">
+                    <v-col md="6" cols="12" class="mt-5 mt-md-0 mt-n1 ml-sm-0 mr-sm-0">
                         <span>{{ t('detail_invite_link') }}</span>
                         <choose-clear
                             icon="copy"
                             position="prepend"
+                            @click="copyInviteLink"
                         >
                             {{ t('detail_copy_link') }}
                         </choose-clear>
@@ -124,12 +132,10 @@
                 </v-row>
             </v-col>
         </template>
-    </v-row>
 
-    <v-row class="fixed-bottom mr-5 ml-5 mb-15" justify="center" align="center">
-        <v-col md="7" cols="12">
+        <v-col md="7" cols="12" >
             <choose-plain
-                class="mb-6 mt-1 text-white"
+                class="mb-6 mt-6 text-white"
                 color="black-black200"
                 :placeholder="t('add_event_nextstep')"
                 @click="nextStep"
@@ -148,7 +154,7 @@ import ChooseClear from "../../../components/button/choose-clear.vue";
 import Completed from "../../../components/text-field/completed.vue";
 import ChoosePlain from "../../../components/button/choose-plain.vue";
 import {useRouter} from "vue-router";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import ChooseCategory from "../../../components/dialog/choose-category.vue";
 import ChooseFolder from "../../../components/dialog/choose-folder.vue";
 import { Event } from "../../../models/Event.model";
@@ -157,6 +163,7 @@ import {useEventStore} from "../../../stores/Event.store";
 import ChooseFriends from "../../../components/dialog/choose-friends.vue";
 import {useToastStore} from "../../../stores/Toast.store";
 import { useI18n } from "vue-i18n";
+import { useGlobalStore } from "../../../stores/Global.store";
 
 let totalStep = ref(3);
 let step = ref(1);
@@ -166,6 +173,12 @@ const { t, locale } = useI18n({ useScope: 'global' });
 const event = ref(new Event());
 const eventStore = useEventStore()
 const router = useRouter()
+
+const eventId = ref(router.currentRoute.value.params.id)
+
+if (eventId.value) {
+    event.value = new Event(eventStore.getEventById(Number(eventId.value)))
+}
 
 const nextStep = async () => {
     // Validation pour passer de l'étape 1 à l'étape 2
@@ -185,9 +198,9 @@ const nextStep = async () => {
     }
 
     if (step.value === totalStep.value) {
-        const res = await eventStore.createEvent(event.value);
+        const res = event.value.id ? await eventStore.updateEvent(event.value.id!, event.value) : await eventStore.createEvent(event.value);
         if (res) {
-            await router.push('/app')
+            await router.back()
         }
     } else {
         step.value++ // Passage à l'étape suivante
@@ -195,10 +208,18 @@ const nextStep = async () => {
 }
 
 const availableRepetition = [
-    { value: 'unique', text: 'Unique' },
-    { value: 'monthly', text: 'Mensuel' },
-    { value: 'yearly', text: 'Annuel' },
+    { value: 'unique', text: t('global_unique') },
+    { value: 'monthly', text: t('global_monthly') },
+    { value: 'yearly', text: t('global_yearly') },
 ]
+
+const copyInviteLink = () => {
+    const inviteLink = `${useGlobalStore.appUrl}/join/${event.value.inviteToken}`
+
+    navigator.clipboard.writeText(inviteLink)
+
+    useToastStore().success({ key: 'banner_copy_invite_link' });
+}
 
 const selectFolder = (id: number) => {
     if (id) {

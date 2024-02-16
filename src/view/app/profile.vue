@@ -183,7 +183,7 @@
                         </v-col>
 
                         <v-col md="12" cols="12" class="text-center content-l-bold" v-if="userStore.friendsRequests.length === 0">
-                            <span>{{ t('add_friend_advice') }}</span>
+                            <span>{{ t('global_no_friend_request') }}</span>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -203,16 +203,19 @@ import AddFriend from "../../components/dialog/add-friend.vue";
 import { PersistentStore } from "../../stores/Persistent.store";
 import router from "../../router";
 import ChooseClear from "../../components/button/choose-clear.vue";
+import {SocketService} from "../../services/socket.services";
 
 const { t, locale } = useI18n({ useScope: 'global' });
 const userStore = useUserStore();
 
 const logout = async () => {
+    SocketService.disconnect()
     await PersistentStore.clear()
     await router.push('/')
 }
 
 const deleteAccount = async () => {
+    SocketService.disconnect()
     await PersistentStore.clear()
     await router.push('/')
 }

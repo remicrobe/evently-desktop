@@ -3,7 +3,7 @@ import { useUserStore } from "../stores/User.store";
 
 export class useApiService {
     private static apiClient = axios.create({
-        baseURL: 'https://theodev.myftp.org:89/',
+        baseURL: 'https://api.evently-app.fr/',
         headers: {
             'Content-Type': 'application/json',
         },

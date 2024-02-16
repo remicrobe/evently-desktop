@@ -2,7 +2,7 @@
     <div
         class="card text-white position-relative"
         :style="`background: linear-gradient(180deg, ${category?.color} 0%, ${makeItFade(category?.color!)} 100%)`"
-        @click="() => console.log('clicked')"
+        @click="() => route.push(`/app/event/${event?.id}`)"
     >
         <!-- Titre -->
         <div>
@@ -19,8 +19,8 @@
                 >
                     <custom-icons class="mr-2 ml-1 ma-auto" icon="folder" color="white" :size="18"></custom-icons>
                     <span class="content-m-bold text-center ma-auto" style="margin: auto">
-                        {{ folder?.name }}
-                    </span>
+            {{ folder?.name }}
+          </span>
                 </div>
             </v-col>
         </v-row>
@@ -32,9 +32,7 @@
                     class="text-start justify-end align-end"
                     style="display: inline-flex; border-radius: 8px; vertical-align: bottom"
                 >
-                    <div
-                        style="background-color: rgba(232,213,213,0.5); border-radius: 8px;"
-                    >
+                    <div style="background-color: rgba(232,213,213,0.5); border-radius: 8px;">
                         <custom-icons
                             :icon="category?.icon!"
                             color="white"
@@ -52,35 +50,38 @@
                 </div>
             </v-col>
         </v-row>
-
     </div>
 </template>
 
 <script setup lang="ts">
-import CustomIcons from "../custom-icons.vue";
+import CustomIcons from "../custom-icons.vue"
 import { Event } from "../../models/Event.model"
-import { computed, defineProps } from "vue";
-import { useCategoryStore } from "../../stores/Category.store";
-import { useFolderStore } from "../../stores/Folder.store";
-import { ColorUtils } from "../../utils/color.utils";
-import { useI18n } from "vue-i18n";
+import { computed, defineProps } from "vue"
+import { useCategoryStore } from "../../stores/Category.store"
+import { useFolderStore } from "../../stores/Folder.store"
+import { ColorUtils } from "../../utils/color.utils"
+import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import {Category} from "../../models/Category.model";
 
 const categoryStore = useCategoryStore()
 const folderStore = useFolderStore()
-const { t, locale } = useI18n({ useScope: 'global' });
+const { t, locale } = useI18n({ useScope: 'global' })
 
 const props = defineProps({
     event: {
-        type: Event,
-    },
+        type: Event
+    }
 })
 
+const route = useRouter()
+
 const folder = computed(() => {
-    return folderStore.getFolderById(props.event?.folderID ?? -1);
+    return folderStore.getFolderById(props.event?.folderID ?? -1)
 })
 
 const category = computed(() => {
-    return categoryStore.getCategoryById(props.event?.categoryID ?? -1);
+    return new Category(props.event?.category)
 })
 
 const makeItFade = (originalColor: string) => {
@@ -103,9 +104,9 @@ const makeItFade = (originalColor: string) => {
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Légère élévation */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre douce */
-    filter: brightness(0.8); /* Réduction de la luminosité pour un effet grisé */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    filter: brightness(0.8);
 }
 
 @keyframes fadeIn {

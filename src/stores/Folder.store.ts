@@ -52,6 +52,19 @@ export const useFolderStore = defineStore({
                 this.folders[index] = new Folder(response.data);
             }
             return true;
+        },
+        async deleteFolder(id: number) {
+            const response = await useApiService.delete(`/folders/${id}`);
+            if (!response.success) {
+                useToastStore().error({ key: 'toast_error_deleting_folder' });
+                return false;
+            }
+            this.folders = this.folders.filter(folder => folder.id !== id);
+
+            if (this.selectedFolderId === id) {
+                this.selectedFolderId = -1;
+            }
+            return true;
         }
     },
 });
