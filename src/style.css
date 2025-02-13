@@ -1,0 +1,251 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+code {
+  background-color: #1a1a1a;
+  padding: 2px 4px;
+  margin: 0 4px;
+  border-radius: 4px;
+}
+
+.card {
+  padding: 2em;
+}
+
+#app {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+  code {
+    background-color: #f9f9f9;
+  }
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('./fonts/Nunito.ttf');
+    font-style: normal;
+}
+/* Base styles */
+.content-xl-bold, .content-xl-semibold,
+.content-l-bold, .content-l-semibold,
+.content-l-medium, .content-m-bold,
+.content-m-semibold, .content-m-medium,
+.content-s-semibold, .content-h3,
+.content-h4, .content-h5 {
+    font-family: 'Nunito', serif;
+    font-style: normal;
+}
+
+/* Taille par défaut pour les grandes résolutions (desktop) */
+.content-xl-bold {
+    font-weight: 700;
+    font-size: 1.25rem; /* ~20px */
+    line-height: 1.35; /* ~27px */
+}
+
+.content-xl-semibold {
+    font-weight: 600;
+    font-size: 1.25rem; /* ~20px */
+    line-height: 1.35;
+}
+
+.content-l-bold {
+    font-weight: 700;
+    font-size: 1.125rem; /* ~18px */
+    line-height: 1.39; /* ~25px */
+}
+
+.content-l-semibold {
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.39;
+}
+
+.content-l-medium {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.39;
+}
+
+.content-m-bold {
+    font-weight: 700;
+    font-size: 1rem; /* ~16px */
+    line-height: 1.375; /* ~22px */
+}
+
+.content-m-semibold {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.375;
+}
+
+.content-m-medium {
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.375;
+}
+
+.content-s-semibold {
+    font-weight: 600;
+    font-size: 0.875rem; /* ~14px */
+    line-height: 1.36; /* ~19px */
+}
+
+.content-h3 {
+    font-weight: 700;
+    font-size: 2.5rem; /* ~40px */
+    line-height: 1.2; /* ~48px */
+}
+
+.content-h4 {
+    font-weight: 700;
+    font-size: 2rem; /* ~32px */
+    line-height: 1.25; /* ~40px */
+}
+
+.content-h5 {
+    font-weight: 700;
+    font-size: 1.5rem; /* ~24px */
+    line-height: 1.33; /* ~32px */
+}
+
+/* Responsive Design for smaller screens */
+
+/* Tablette et petite écrans (768px et moins) */
+@media (max-width: 768px) {
+    .content-xl-bold, .content-xl-semibold {
+        font-size: 1.1rem; /* ~18px */
+    }
+
+    .content-l-bold, .content-l-semibold, .content-l-medium {
+        font-size: 1rem; /* ~16px */
+    }
+
+    .content-m-bold, .content-m-semibold, .content-m-medium {
+        font-size: 0.875rem; /* ~14px */
+    }
+
+    .content-s-semibold {
+        font-size: 0.75rem; /* ~12px */
+    }
+
+    .content-h3 {
+        font-size: 2rem; /* ~32px */
+    }
+
+    .content-h4 {
+        font-size: 1.75rem; /* ~28px */
+    }
+
+    .content-h5 {
+        font-size: 1.25rem; /* ~20px */
+    }
+}
+
+/* Mobile (480px et moins) */
+@media (max-width: 480px) {
+    .content-xl-bold, .content-xl-semibold {
+        font-size: 1rem; /* ~16px */
+    }
+
+    .content-l-bold, .content-l-semibold, .content-l-medium {
+        font-size: 0.875rem; /* ~14px */
+    }
+
+    .content-m-bold, .content-m-semibold, .content-m-medium {
+        font-size: 0.75rem; /* ~12px */
+    }
+
+    .content-s-semibold {
+        font-size: 0.625rem; /* ~10px */
+    }
+
+    .content-h3 {
+        font-size: 1.75rem; /* ~28px */
+    }
+
+    .content-h4 {
+        font-size: 1.5rem; /* ~24px */
+    }
+
+    .content-h5 {
+        font-size: 1.125rem; /* ~18px */
+    }
+}
+
+@media (max-width: 1200px) {
+    .hide-mobile-icon .v-btn__content {
+        display: none;
+    }
+
+    .hide-mobile-icon {
+        max-width: 45px !important;
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+    "appId": "sementa.com.Evently",
+    "asar": true,
+    "productName": "Evently",
+    "afterSign": "build/notarize.js",
+    "directories": {
+        "output": "release/${version}"
+    },
+    "files": [
+        "dist",
+        "dist-electron"
+    ],
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "remicrobe",
+            "repo": "evently-desktop"
+        }
+    ],
+    "mac": {
+        "icon": "./icons/mac/app.icns",
+        "target": [
+            {
+                "target": "default",
+                "arch": [
+                    "arm64",
+                    "x64"
+                ]
+            }
+        ],
+        "type": "distribution",
+        "identity": "8TMMB69WBG",
+        "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
+        "hardenedRuntime": true,
+        "entitlements": "build/entitlements.mac.plist",
+        "entitlementsInherit": "build/entitlements.mac.plist",
+        "notarize": false,
+        "gatekeeperAssess": false,
+    },
+    "dmg": {
+        "sign": false
+    },
+    "win": {
+        "icon": "./icons/win/icon.ico",
+        "target": [
+            {
+                "target": "nsis",
+                "arch": [
+                    "x64"
+                ]
+            }
+        ],
+        "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    },
+    "nsis": {
+        "oneClick": false,
+        "perMachine": false,
+        "allowToChangeInstallationDirectory": true,
+        "deleteAppDataOnUninstall": false
+    },
+    "linux": {
+        "icon": "./icons/png/*",
+        "target": [
+            "AppImage"
+        ],
+        "artifactName": "${productName}-Linux-${version}.${ext}"
+    }
+}

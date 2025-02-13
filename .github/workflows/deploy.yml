@@ -1,0 +1,36 @@
+name: Deploying
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: executing remote ssh commands using ssh key
+        id: ssh_deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd node
+            cd evently-desktop
+            git stash
+            git stash clear
+            git pull
+            npm install
+            vue-tsc --noEmit
+            vite build --base=/
+            mkdir -p /usr/share/nginx/html/evently-app
+            rm -rf /usr/share/nginx/html/evently-app/*
+            mv dist/* /usr/share/nginx/html/evently-app/
+            chown -R www-data:www-data /usr/share/nginx/html/evently-app
