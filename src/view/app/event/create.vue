@@ -1,7 +1,7 @@
 <template>
     <default></default>
 
-    <v-row justify="center" align="center" class="mr-5 ml-5">
+    <v-row justify="center" align="center" class="mr-5 ml-5 mb-15">
         <v-col md="7" cols="12" class="text-lg-center text-left mt-10">
             <v-avatar
                 class="rounded mt-n4"
@@ -124,10 +124,8 @@
                 </v-row>
             </v-col>
         </template>
-    </v-row>
 
-    <v-row class="fixed-bottom mr-5 ml-5 mb-15" justify="center" align="center">
-        <v-col md="7" cols="12">
+        <v-col md="7" cols="12" >
             <choose-plain
                 class="mb-6 mt-1 text-white"
                 color="black-black200"
