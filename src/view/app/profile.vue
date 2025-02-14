@@ -183,7 +183,7 @@
                         </v-col>
 
                         <v-col md="12" cols="12" class="text-center content-l-bold" v-if="userStore.friendsRequests.length === 0">
-                            <span>{{ t('add_friend_advice') }}</span>
+                            <span>{{ t('global_no_friend_request') }}</span>
                         </v-col>
                     </v-row>
                 </v-col>
