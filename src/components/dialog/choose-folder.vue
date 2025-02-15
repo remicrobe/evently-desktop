@@ -103,6 +103,13 @@ const windowWidth = ref(useDisplay().width);
 
 const dialogWidth = computed(() => (windowWidth.value < 1200 ? "90%" : "50%"));
 
+const props = defineProps<{ selectedFolderId?: number }>();
+
+if (props.selectedFolderId) {
+    selectedFolderId.value = props.selectedFolderId;
+    selectedFolder.value = folderStore.getFolderById(props.selectedFolderId);
+}
+
 const filteredFolders = computed(() => {
     return folderStore.folders.filter(folder =>
         folder.name?.toLowerCase().includes(search.value.toLowerCase())

@@ -28,7 +28,7 @@ export class Event {
         this.description = object?.description;
         this.location = object?.location;
         this.isReccuring = object?.isReccuring;
-        this.recurrencePattern = object?.recurrencePattern ?? 'none';
+        this.recurrencePattern = object?.recurrencePattern ?? 'unique';
         this.interval = object?.interval;
         this.maxOccurence = object?.maxOccurence;
         this.targetDate = new Date(object?.targetDate!);
@@ -39,6 +39,8 @@ export class Event {
         this.friends = object?.friends ?? [];
         this.folderID = object?.folderID;
         if (object?.joinedUser) {
+            this.friends = [];
+            this.joinedUser = [];
             for (const user of object.joinedUser) {
                 this.joinedUser.push(new User(user));
                 this.friends.push(user.username!);

@@ -2,8 +2,8 @@
     <default></default>
     <drawer></drawer>
 
-    <v-row justify="start" align="start" class="ma-3">
-        <v-col md="12">
+    <v-row justify="start" align="start" class="ma-3" v-if="eventStore.getEvent.length > 0">
+        <v-col md="12" >
             <template v-for="(events, period) in groupedEvents" :key="period">
                 <span v-if="events.length > 0" class="content-h5 ml-4">
                     {{ t(period) }}
@@ -17,6 +17,22 @@
 
                 <v-divider class="mb-5" v-if="events.length > 0"></v-divider>
             </template>
+        </v-col>
+    </v-row>
+
+    <v-row justify="center" align="center" style="height: 90vh;" v-else>
+        <v-col md="12" cols="12" class="text-center">
+            <v-img
+                width="20%"
+                src="./assets/no_event.svg"
+                class="mx-auto mb-5"
+            ></v-img>
+            <span class="content-h4">
+                {{ t('home_empty_title') }}
+            </span> <br /><br />
+            <span class="content-l-medium">
+                {{ t('home_empty_desc') }}
+            </span>
         </v-col>
     </v-row>
 

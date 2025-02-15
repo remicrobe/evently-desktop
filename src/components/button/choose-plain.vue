@@ -1,13 +1,33 @@
 <template>
-    <v-btn :style="`background-color: ${vuetifyColor}; border: 2px solid ${vuetifyColor}`" class="custom-button content-l-semibold">
+    <v-btn
+        :style="`background-color: ${vuetifyColor}; border: 2px solid ${vuetifyColor}`"
+        class="custom-button content-l-semibold"
+    >
         <template v-slot:prepend v-if="position === 'prepend'">
-            <custom-icons v-if="icon" :size="iconSize" class="mr-n3" :icon="icon" :color="iconColor"></custom-icons>
+            <custom-icons
+                v-if="icon"
+                :size="iconSize"
+                class="mr-n3"
+                :icon="icon"
+                :color="iconColor"
+            >
+            </custom-icons>
         </template>
 
         <template v-slot:append v-if="position === 'append'">
-            <custom-icons v-if="icon" :size="iconSize" class="mr-n3" :icon="icon" :color="iconColor"></custom-icons>
+            <custom-icons
+                v-if="icon"
+                :size="iconSize"
+                class="mr-n3"
+                :icon="icon"
+                :color="iconColor"
+            >
+            </custom-icons>
         </template>
-        <slot>{{ placeholder }}</slot>
+
+        <slot>
+            {{ placeholder }}
+        </slot>
     </v-btn>
 </template>
 
@@ -28,16 +48,17 @@
     letter-spacing: -0.2px;
 }
 
-.custom-button:focus, .custom-button:active {
+.custom-button:focus,
+.custom-button:active {
     outline: none;
     box-shadow: none;
 }
 </style>
 
 <script setup lang="ts">
-import CustomIcons from "../custom-icons.vue";
-import { defineProps, defineEmits, computed } from "vue";
-import { useTheme } from "vuetify";
+import CustomIcons from "../custom-icons.vue"
+import { defineProps, defineEmits, computed } from "vue"
+import { useTheme } from "vuetify"
 
 const props = defineProps({
     icon: {
@@ -65,11 +86,11 @@ const props = defineProps({
         default: 24
     },
     modelValue: Boolean
-});
+})
 
 const vuetifyColor = computed(() => {
     return useTheme().global.current.value.colors[props.color] || props.color
-});
+})
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue"])
 </script>

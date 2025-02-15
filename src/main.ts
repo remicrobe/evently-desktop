@@ -5,6 +5,7 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import locales from './translations/locales.json';
+import "@mdi/font/css/materialdesignicons.css";
 
 // Importation des composants et configurations de l'application
 import App from './App.vue';
@@ -13,7 +14,8 @@ import router from "./router"; // Configuration du routeur Vue
 import { createI18n } from "vue-i18n"; // Internationalisation
 import { createPinia } from 'pinia'; // Gestion d'état avec Pinia
 import { PersistentStore } from "./stores/Persistent.store";
-import { Settings } from "luxon"; // Importation des traductions
+import { Settings } from "luxon";
+import {aliases, mdi} from "vuetify/iconsets/mdi"; // Importation des traductions
 
 // Définition du thème par défaut pour Vuetify
 const defaultTheme = {
@@ -56,6 +58,13 @@ async function initApp() {
     const vuetify = createVuetify({
         components,
         directives,
+        icons: {
+            defaultSet: 'mdi',
+            aliases,
+            sets: {
+                mdi,
+            },
+        },
         locale: {
             locale: locale ? locale.split('-')[0] : 'en',
             fallback: 'en',

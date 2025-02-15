@@ -6,6 +6,7 @@ import StepTwoAuthScreen from "./view/auth/step-two.vue";
 import AppIndexView from "./view/app/index.vue";
 import ClassicAuthScreen from "./view/auth/classic.vue";
 import AppEventCreateView from "./view/app/event/create.vue";
+import AppEventDetailView from "./view/app/event/detail.vue";
 import { useUserStore } from "./stores/User.store";
 import ProfileView from "./view/app/profile.vue";
 
@@ -17,6 +18,8 @@ const routes = [
     { path: '/onboarding', isLogin: false, component: OnboardingScreen },
     { path: '/app', isLogin: true, component: AppIndexView },
     { path: '/app/event/create', isLogin: true, component: AppEventCreateView },
+    { path: '/app/event/edit/:id', isLogin: true, component: AppEventCreateView },
+    { path: '/app/event/:id', isLogin: true, component: AppEventDetailView },
     { path: '/app/profile', isLogin: true, component: ProfileView },
 ];
 

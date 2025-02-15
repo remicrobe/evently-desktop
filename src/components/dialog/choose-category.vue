@@ -113,6 +113,15 @@ const selectedCategoryId = ref<number | undefined>();
 const selectedCategory = ref<any>(); // La catégorie sélectionnée
 const emit = defineEmits(["categorySelected"]);
 
+const props = defineProps<{
+    selectedCategoryId?: number
+}>();
+
+if (props.selectedCategoryId) {
+    selectedCategoryId.value = props.selectedCategoryId;
+    selectedCategory.value = categoryStore.getCategoryById(props.selectedCategoryId);
+}
+
 const makeItFade = (originalColor: string) => {
     return ColorUtils.adjustLightness(originalColor, -10)
 }

@@ -5,6 +5,7 @@ import { useFolderStore } from "./Folder.store";
 import { useCategoryStore } from "./Category.store";
 import { useUserStore } from "./User.store";
 import { useToastStore } from "./Toast.store";
+import {Category} from "../models/Category.model";
 
 
 export const useEventStore = defineStore({
@@ -39,7 +40,9 @@ export const useEventStore = defineStore({
             this.events.push(new Event(response.data));
             return true;
         },
-
+        getEventById(id: number): Event | undefined {
+            return this.events.find(e => e.id === id);
+        },
         async fetchEvents() {
             const response = await useApiService.get('/events');
             if (!response.success) {

@@ -1,13 +1,38 @@
 <template>
-    <v-btn class="custom-button content-l-semibold">
-        <template v-slot:prepend v-if="position === 'prepend'">
-            <custom-icons v-if="icon" :size="iconSize" class="mr-n2" :icon="icon" color="white"></custom-icons>
+    <v-btn
+        class="custom-button content-l-semibold"
+    >
+        <template
+            v-slot:prepend
+            v-if="position === 'prepend'"
+        >
+            <custom-icons
+                v-if="icon"
+                :size="iconSize"
+                class="mr-n2"
+                :icon="icon"
+                color="white"
+            >
+            </custom-icons>
         </template>
 
-        <template v-slot:append v-if="position === 'append'">
-            <custom-icons v-if="icon" :size="iconSize" class="mr-n2" :icon="icon" color="white"></custom-icons>
+        <template
+            v-slot:append
+            v-if="position === 'append'"
+        >
+            <custom-icons
+                v-if="icon"
+                :size="iconSize"
+                class="mr-n2"
+                :icon="icon"
+                color="white"
+            >
+            </custom-icons>
         </template>
-        <slot>{{ placeholder }}</slot>
+
+        <slot>
+            {{ placeholder }}
+        </slot>
     </v-btn>
 </template>
 
@@ -43,8 +68,8 @@
 </style>
 
 <script setup lang="ts">
-import CustomIcons from "../custom-icons.vue";
-import { defineProps, defineEmits } from "vue";
+import CustomIcons from "../custom-icons.vue"
+import { defineProps, defineEmits } from "vue"
 
 const props = defineProps({
     icon: {
@@ -62,6 +87,6 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: "Choisir une catégorie"
-    },
-});
+    }
+})
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "evently",
-  "version": "0.0.201",
+  "version": "0.0.202",
   "main": "dist-electron/main/index.js",
   "description": "App to track Events !",
   "author": "WEIL Rémi <remi@remi-weil.fr>",
@@ -48,6 +48,7 @@
   "dependencies": {
     "@electron/notarize": "^2.5.0",
     "@intlify/unplugin-vue-i18n": "^6.0.3",
+    "@mdi/font": "^7.4.47",
     "dotenv": "^16.4.7",
     "electron-updater": "^6.3.9",
     "luxon": "^3.5.0",

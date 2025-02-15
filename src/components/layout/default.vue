@@ -10,7 +10,7 @@
                 </v-col>
 
                 <v-col
-                    v-if="showButton && router.currentRoute.value.path=== '/app'"
+                    v-if="showButton && router.currentRoute.value.path.replace(/\/$/, '') === '/app'"
                     md="6" cols="6"
                     class="text-end"
                 >
@@ -58,9 +58,10 @@
                         <choose-plain
                             icon="trash"
                             position="prepend"
-                            color="red"
+                            color="#B72A12"
                             icon-color="white"
                             class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
+                            style="background: linear-gradient(180deg, #E53517 0%, #B72A12 100%);"
                         >
                             {{ t('detail_delete') }}
                         </choose-plain>
@@ -99,7 +100,7 @@ const folderStore = useFolderStore()
 const router = useRouter()
 
 const showButton = computed(() => {
-    return (folderStore.selectedFolderId === -1 && categoryStore.selectedCategoryId !== -1) ||
+    return (folderStore.selectedFolderId === -1 && (categoryStore.selectedCategoryId !== -1 && !categoryStore.selectedCategory?.default)) ||
         (folderStore.selectedFolderId !== -1 && categoryStore.selectedCategoryId === -1);
 })
 </script>
