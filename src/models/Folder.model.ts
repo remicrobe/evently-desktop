@@ -18,6 +18,8 @@ export class Folder {
         this.friends = object?.friends ?? [];
 
         if (object?.joinedUser) {
+            this.friends = [];
+            this.joinedUser = [];
             for (const user of object.joinedUser) {
                 this.joinedUser.push(new User(user));
                 this.friends.push(user.username!);

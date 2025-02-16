@@ -35,6 +35,7 @@
                     <div style="flex-grow: 1;">
                         <span>{{ t('global_friends') }}</span>
                         <choose-friends
+                            :selected-friend-username="folder.friends"
                             @friend-added="(username) => folder.friends.push(username)"
                             @friend-removed="(username) => folder.friends = folder.friends.filter(f => f !== username)"
                         ></choose-friends>

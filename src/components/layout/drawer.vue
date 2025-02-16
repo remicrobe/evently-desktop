@@ -11,6 +11,7 @@
             <nav-item
                 icon="person"
                 :text="userStore.user.fullName"
+                :sub-text="userStore.user.username"
                 @click="router.currentRoute.value.path === '/app/profile' ? router.push('/app') : router.push('/app/profile')"
                 :selected-background="'white'"
                 :selected="router.currentRoute.value.path === '/app/profile'"

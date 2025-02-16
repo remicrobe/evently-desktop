@@ -7,15 +7,21 @@
         <div class="icon-container">
             <custom-icons :icon="icon" :color="color"></custom-icons>
         </div>
-        <span :class="{
-          'text-black-black500': !selected,
-          [`text-${selectedTextColor}`]: selected,
-          'content-l-bold': true
-        }">
-            {{ text }}
-        </span>
+        <div class="text-container">
+            <span :class="{
+                'text-black-black500': !selected,
+                [`text-${selectedTextColor}`]: selected,
+                'content-l-bold': true
+            }">
+                {{ text }}
+            </span>
+            <span v-if="subText" class="subtext mt-n1 content-l-medium">
+                {{ subText }}
+            </span>
+        </div>
     </div>
 </template>
+
 
 <script setup lang="ts">
 import { computed } from "vue";
@@ -29,6 +35,10 @@ const props = defineProps({
     text: {
         type: String,
         required: true
+    },
+    subText: {
+        type: String,
+        required: false
     },
     color: {
         type: String,
@@ -80,6 +90,16 @@ const selectedBackgroundStyle = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.subtext {
+    font-size: 12px;
+    color: #7a7a7a; /* Couleur plus discrète */
 }
 
 .list-item:hover {
