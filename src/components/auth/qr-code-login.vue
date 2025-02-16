@@ -26,7 +26,7 @@ const socket = ref<any>(null)
 const qrValue = ref<string | null>(null)
 
 const connectSocket = () => {
-    socket.value = io("https://theodev.myftp.org:89", {
+    socket.value = io("https://api.evently-app.fr", {
         query: {
             context: "auth"
         }

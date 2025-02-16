@@ -1,6 +1,6 @@
 {
   "name": "evently",
-  "version": "0.0.202",
+  "version": "0.0.203",
   "main": "dist-electron/main/index.js",
   "description": "App to track Events !",
   "author": "WEIL Rémi <remi@remi-weil.fr>",

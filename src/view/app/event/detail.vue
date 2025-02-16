@@ -20,7 +20,7 @@
         {{t('global_back')}}
     </choose-clear>
 
-    <div class="d-inline-flex mr-3 edit-button">
+    <div class="d-inline-flex edit-button mr-md-4 mr-0">
         <choose-clear
             style="order: -1"
             icon="edit"
@@ -82,7 +82,7 @@ const eventId = ref(router.currentRoute.value.params.id)
 .edit-button {
     position: fixed;
     top: 95px;
-    right: 5px;
+    right: 10px;
     border: none;
     max-width: 275px;
     font-size: 24px;

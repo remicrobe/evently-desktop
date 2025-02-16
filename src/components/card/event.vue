@@ -62,6 +62,7 @@ import { useFolderStore } from "../../stores/Folder.store"
 import { ColorUtils } from "../../utils/color.utils"
 import { useI18n } from "vue-i18n"
 import { useRouter } from "vue-router"
+import {Category} from "../../models/Category.model";
 
 const categoryStore = useCategoryStore()
 const folderStore = useFolderStore()
@@ -80,7 +81,7 @@ const folder = computed(() => {
 })
 
 const category = computed(() => {
-    return categoryStore.getCategoryById(props.event?.categoryID ?? -1)
+    return new Category(props.event?.category)
 })
 
 const makeItFade = (originalColor: string) => {

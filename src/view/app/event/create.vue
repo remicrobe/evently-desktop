@@ -109,7 +109,7 @@
 
         <template v-if="step === 3">
             <v-col md="7" cols="12" class="mt-5">
-                <v-row no-gutters>
+                <v-row>
                     <v-col md="6" cols="12">
                         <span >{{ t('global_friends') }}</span>
                         <choose-friends
@@ -119,7 +119,7 @@
                         ></choose-friends>
                     </v-col>
 
-                    <v-col md="6" cols="12" class="mt-5 mt-md-0 ml-md-2 mr-md-n2 ml-sm-0 mr-sm-0">
+                    <v-col md="6" cols="12" class="mt-5 mt-md-0 mt-n1 ml-sm-0 mr-sm-0">
                         <span>{{ t('detail_invite_link') }}</span>
                         <choose-clear
                             icon="copy"

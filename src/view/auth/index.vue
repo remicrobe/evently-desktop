@@ -87,7 +87,7 @@ const loginWithApple = () => {
 }
 const loginWithGoogle = () => {
     const clientId = '1090154088660-9houd9gk2isnkfquk1l6srfc2i8ld2aa.apps.googleusercontent.com';
-    const redirectUri = 'https://theodev.myftp.org:89/auth/google-callback';
+    const redirectUri = 'https://api.evently-app.fr/auth/google-callback';
     const scope = 'openid profile email';
     const responseType = 'code';
     const state = isElectron() ? 'desktop' : 'web';
