@@ -20,11 +20,20 @@
 
             <nav-item
                 icon="sparkes"
-                text="Mes événements"
+                :text="t('sidebar_my_events')"
                 :selected="eventStore.onlyMine"
                 :color="eventStore.onlyMine ? 'black' : 'black-black500'"
                 :selected-background="'white'"
                 @click="eventStore.onlyMine = !eventStore.onlyMine"
+            ></nav-item>
+
+            <nav-item
+                icon="inboxStack"
+                :text="t('sidebar_history')"
+                :selected="eventStore.showPast"
+                :color="eventStore.showPast ? 'black' : 'black-black500'"
+                :selected-background="'white'"
+                @click="eventStore.showPast = !eventStore.showPast"
             ></nav-item>
         </div>
 
@@ -36,7 +45,7 @@
                     <nav-item
                         @click="openDialog"
                         icon="folderPlus"
-                        text="Créer un dossier"
+                        :text="t('sidebar_add_folder')"
                         color="black-black500"
                     ></nav-item>
                 </template>
@@ -47,7 +56,7 @@
                     <nav-item
                         @click="openDialog"
                         icon="plusCircle"
-                        text="Créer une catégorie"
+                        :text="t('sidebar_add_category')"
                         color="black-black500"
                     ></nav-item>
                 </template>

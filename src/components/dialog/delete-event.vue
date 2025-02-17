@@ -65,7 +65,10 @@ import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 import { useUserStore } from "../../stores/User.store";
 import { useEventStore } from "../../stores/Event.store";
+import { useRouter } from "vue-router";
 const { t, locale } = useI18n({ useScope: 'global' });
+
+const router = useRouter()
 
 const props = defineProps({
     eventId: {
@@ -89,6 +92,7 @@ const dialogWidth = computed(() => (windowWidth.value < 1200 ? "90%" : "50%"));
 
 const deleteEvent = () => {
     eventStore.deleteEvent(props.eventId)
+    router.push('/app')
 }
 </script>
 

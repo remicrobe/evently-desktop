@@ -1,6 +1,10 @@
 <template>
     <div class="card">
-        <h2 class="content-h5">{{ t('detail_invite_link') }}</h2>
+        <div class="d-flex align-items-center mt-n2">
+            <custom-icons class="mr-2 ml-1 ma-auto" icon="link" color="white" :size="24"></custom-icons>
+            <h2 class="content-h5 ma-auto">{{ t('detail_invite_link') }}</h2>
+        </div>
+
         <p class="content-m-semibold text-start">{{
                 t('detail_share_link')
             }}</p>
@@ -22,6 +26,7 @@ import { useI18n } from "vue-i18n";
 import { useGlobalStore } from "../../stores/Global.store";
 import { useToastStore } from "../../stores/Toast.store";
 import { defineProps } from "vue";
+import CustomIcons from "../custom-icons.vue";
 
 const { t, locale } = useI18n({ useScope: 'global' });
 

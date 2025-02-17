@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 import SplashScreen from "./view/start/splash-screen.vue";
 import AuthScreen from "./view/auth/index.vue";
 import OnboardingScreen from "./view/start/onboarding.vue";
@@ -7,6 +7,7 @@ import AppIndexView from "./view/app/index.vue";
 import ClassicAuthScreen from "./view/auth/classic.vue";
 import AppEventCreateView from "./view/app/event/create.vue";
 import AppEventDetailView from "./view/app/event/detail.vue";
+import AppEventInviteDetailView from "./view/app/event/invite/detail.vue";
 import { useUserStore } from "./stores/User.store";
 import ProfileView from "./view/app/profile.vue";
 
@@ -20,29 +21,28 @@ const routes = [
     { path: '/app/event/create', isLogin: true, component: AppEventCreateView },
     { path: '/app/event/edit/:id', isLogin: true, component: AppEventCreateView },
     { path: '/app/event/:id', isLogin: true, component: AppEventDetailView },
+    { path: '/app/event/invite/:id', isLogin: true, component: AppEventInviteDetailView },
     { path: '/app/profile', isLogin: true, component: ProfileView },
 ];
 
-const router = createRouter({
-    history: window.ipcRenderer ? createWebHashHistory() : createWebHistory(),
+const router = createRouter ({
+    history: window.ipcRenderer ? createWebHashHistory () : createWebHistory (),
     routes,
 });
 
-router.beforeEach((to, from, next) => {
-    console.log("Changement de route vers :", to.fullPath);
-    const userStore = useUserStore();
+router.beforeEach ((to, from, next) => {
+    console.log ("Changement de route vers :", to.fullPath);
+    const userStore = useUserStore ();
 
-    const path = to.path.endsWith('/') ? to.path.slice(0, -1) : to.path;
-    // Recherche la route correspondante
-    const route = routes.find(r => r.path === path);
+    const path = to.path.endsWith ('/') ? to.path.slice (0, -1) : to.path;
+
+    const route = routes.find (r => r.path === path);
 
     if (route?.isLogin && !userStore.token) {
-        next('/');
+        next ('/');
     } else {
-        next();
+        next ();
     }
 });
-
-
 
 export default router;

@@ -51,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import ChoosePlain from "../../components/button/choose-plain.vue";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Login from "../../components/button/login.vue";

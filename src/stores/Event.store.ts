@@ -5,15 +5,17 @@ import { useFolderStore } from "./Folder.store";
 import { useCategoryStore } from "./Category.store";
 import { useUserStore } from "./User.store";
 import { useToastStore } from "./Toast.store";
-import {Category} from "../models/Category.model";
-import {DateTime} from "luxon";
-
+import { Category } from "../models/Category.model";
+import { DateTime } from "luxon";
+import { Invitation } from "../models/Invitation.model";
 
 export const useEventStore = defineStore({
     id: 'event',
     state: () => ({
         events: [] as Event[],
+        invitations: [] as Invitation[],
         onlyMine: false,
+        showPast: false,
     }),
     getters: {
         getEvent(): Event[] {
@@ -32,7 +34,7 @@ export const useEventStore = defineStore({
                     (selectedCategoryId === -1 || event.categoryID === selectedCategoryId) &&
                     (selectedFolderId === -1 || event.folderID === selectedFolderId) &&
                     (!this.onlyMine || event.userID === userId) &&
-                    eventDate >= today
+                    ((this.showPast && eventDate < today) || (!this.showPast && eventDate >= today))
                 );
             });
         }
@@ -50,6 +52,9 @@ export const useEventStore = defineStore({
         getEventById(id: number): Event | undefined {
             return this.events.find(e => e.id === id);
         },
+        getInvitationById(id: number): Invitation | undefined {
+            return this.invitations.find(i => i.id === id);
+        },
         async fetchEvents() {
             const response = await useApiService.get('/events');
             if (!response.success) {
@@ -59,20 +64,27 @@ export const useEventStore = defineStore({
             this.events = response.data.map((ev: any) => new Event(ev));
             return true;
         },
-
         async updateEvent(id: number, eventData: Partial<Event>) {
             const response = await useApiService.put(`/events/${id}`, eventData);
             if (!response.success) {
-                    useToastStore().success({ key: 'toast_error_update_event' });
+                useToastStore().success({ key: 'toast_error_update_event' });
                 return false;
             }
             const index = this.events.findIndex(ev => ev.id === id);
+
             if (index !== -1) {
-                this.events[index] = new Event(response.data);
+                const eventToUpdate = this.events[index];
+
+                Object.keys(eventData).forEach(key => {
+                    if (key in eventToUpdate) {
+                        // @ts-ignore: On indique à TypeScript qu'on met à jour une propriété de type Event
+                        eventToUpdate[key] = eventData[key];
+                    }
+                });
             }
+
             return true;
         },
-
         async deleteEvent(id: number) {
             const response = await useApiService.delete(`/events/${id}`);
             if (response.status !== 204 && !response.success) {
@@ -80,6 +92,34 @@ export const useEventStore = defineStore({
                 return false;
             }
             this.events = this.events.filter(ev => ev.id !== id);
+            return true;
+        },
+        async fetchInvitations() {
+            const response = await useApiService.get('/events/invitation');
+            if (!response.success) {
+                useToastStore().success({ key: 'toast_error_getting_invitations' });
+                return false;
+            }
+            this.invitations = response.data.map((inv: any) => new Invitation(inv));
+
+            return true;
+        },
+        async updateInvitationStatus(eventId: number, status: string) {
+            const response = await useApiService.put(`/events/invitation/${eventId}`, { status });
+            if (!response.success) {
+                useToastStore().success({ key: 'toast_error_updating_invitation' });
+                return false;
+            }
+
+            const index = this.invitations.findIndex((inv: any) => inv.event.id === eventId);
+            if (index !== -1) {
+                if (status === 'pending') {
+                    this.invitations[index].invitationStatus = status;
+                } else {
+                    this.invitations.splice(index, 1);
+                    this.events.push(new Event(response.data.event));
+                }
+            }
             return true;
         }
     },

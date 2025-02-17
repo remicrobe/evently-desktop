@@ -14,6 +14,7 @@ export class useGlobalStore {
             useEventStore().fetchEvents(),
             useUserStore().fetchUserFriends(),
             useUserStore().fetchFriendRequests(),
+            useEventStore().fetchInvitations(),
         ])
 
         const token = useUserStore().token;

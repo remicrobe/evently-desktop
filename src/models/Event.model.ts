@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { User } from "./User.model";
 import { RandomUtils } from "../utils/random.utils";
 import {Category} from "./Category.model";
+import { Folder } from "./Folder.model";
 
 export class Event {
     id: number | undefined;
@@ -16,6 +17,7 @@ export class Event {
     inviteToken: string | undefined;
     categoryID: number | undefined;
     category: Category | undefined;
+    folder: Folder | undefined;
     userID: number | undefined;
     user: User | undefined;
     folderID: number | undefined;
@@ -41,6 +43,7 @@ export class Event {
         this.user = object?.user ? new User(object.user) : undefined;
         this.friends = object?.friends ?? [];
         this.folderID = object?.folderID;
+        this.folder = new Folder(object?.folder);
         if (object?.joinedUser) {
             this.friends = [];
             this.joinedUser = [];
@@ -60,6 +63,6 @@ export class Event {
 
     getDiffToday(): string {
         if (!this.targetDate) return "0";
-        return Math.trunc(DateTime.fromJSDate(this.targetDate).diffNow("days").days).toFixed(0);
+        return Math.trunc(DateTime.fromJSDate(this.targetDate).startOf('day').diff(DateTime.now().startOf('day'), "days").days).toFixed(0);
     }
 }

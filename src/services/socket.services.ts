@@ -100,6 +100,7 @@ export class SocketService {
                         break;
                     case SocketContext.EVENT:
                         await useEventStore().fetchEvents()
+                        await useEventStore().fetchInvitations()
                         // if (id) {
                         //     await useEventStore().fetchEvents(id)
                         // }
