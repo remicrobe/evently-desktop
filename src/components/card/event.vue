@@ -2,7 +2,7 @@
     <div
         class="card text-white position-relative"
         :style="`background: linear-gradient(180deg, ${category?.color} 0%, ${makeItFade(category?.color!)} 100%)`"
-        @click="() => route.push(`/app/event/${event?.id}`)"
+        @click="() => isInvite ? route.push(`/app/event/invite/${inviteId}`) : route.push(`/app/event/${event?.id}`)"
     >
         <!-- Titre -->
         <div>
@@ -71,6 +71,14 @@ const { t, locale } = useI18n({ useScope: 'global' })
 const props = defineProps({
     event: {
         type: Event
+    },
+    isInvite: {
+        type: Boolean,
+        default: false
+    },
+    inviteId: {
+        type: Number,
+        default: false
     }
 })
 

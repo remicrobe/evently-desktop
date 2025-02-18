@@ -3,10 +3,28 @@
     <drawer></drawer>
 
     <v-row justify="start" align="start" class="ma-3" v-if="eventStore.getEvent.length > 0">
-        <v-col md="12" >
+        <v-col md="12">
+            <template v-if="invitations.length > 0 && !eventStore.onlyMine && !eventStore.showPast">
+                <span class="content-h5 ml-4">
+                    {{ t ('home_waiting_invitation') }}
+                </span>
+
+                <v-row class="mt-1 mb-1">
+                    <v-col md="4" cols="12" v-for="inv in invitations" :key="inv.id">
+                        <event-component
+                            :event="inv.event"
+                            :invite-id="inv.id"
+                            :is-invite="true"
+                        ></event-component>
+                    </v-col>
+                </v-row>
+
+                <v-divider class="mb-5"></v-divider>
+            </template>
+
             <template v-for="(events, period) in groupedEvents" :key="period">
                 <span v-if="events.length > 0" class="content-h5 ml-4">
-                    {{ t(period) }}
+                    {{ t (period) }}
                 </span>
 
                 <v-row v-if="events.length > 0" class="mt-1 mb-1">
@@ -28,10 +46,10 @@
                 class="mx-auto mb-5"
             ></v-img>
             <span class="content-h4">
-                {{ t('home_empty_title') }}
-            </span> <br /><br />
+                {{ t ('home_empty_title') }}
+            </span> <br/><br/>
             <span class="content-l-medium">
-                {{ t('home_empty_desc') }}
+                {{ t ('home_empty_desc') }}
             </span>
         </v-col>
     </v-row>
@@ -54,31 +72,36 @@ import { Event } from "../../models/Event.model";
 import { useEventStore } from "../../stores/Event.store";
 import { computed } from 'vue';
 import ChoosePlain from "../../components/button/choose-plain.vue";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { DateTime } from "luxon";
 
-const eventStore = useEventStore();
-const router = useRouter()
-const { t, locale } = useI18n({ useScope: 'global' });
+const eventStore = useEventStore ();
+const router = useRouter ()
+const { t, locale } = useI18n ({ useScope: 'global' });
 
-// Fonction pour classer les événements par période
-const groupedEvents = computed(() => {
-    const today = new Date();
-    const thisMonthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    const thisYearEnd = new Date(today.getFullYear(), 11, 31);
-    const nextYearEnd = new Date(today.getFullYear() + 1, 11, 31);
+const invitations = eventStore.invitations;
 
-    return eventStore.getEvent.reduce((acc, event) => {
-        const eventDate = event.targetDate ?? new Date();
+const groupedEvents = computed (() => {
+    const today = DateTime.now ();
+    const thisMonthEnd = today.endOf ("month").toJSDate ();
+    const thisYearEnd = today.endOf ("year").toJSDate ();
+    const nextYearEnd = today.plus ({ years: 1 }).endOf ("year").toJSDate ();
+    const yesterday = today.minus ({ day: 1 }).endOf ('day').toJSDate ();
 
-        if (eventDate <= thisMonthEnd) {
-            acc.home_this_month.push(event);
+    return eventStore.getEvent.reduce ((acc, event) => {
+        const eventDate = event.targetDate ?? new Date ();
+
+        if (eventDate <= yesterday) {
+            acc.home_past.push (event);
+        } else if (eventDate <= thisMonthEnd) {
+            acc.home_this_month.push (event);
         } else if (eventDate <= thisYearEnd) {
-            acc.home_later_this_year.push(event);
+            acc.home_later_this_year.push (event);
         } else if (eventDate <= nextYearEnd) {
-            acc.home_next_year.push(event);
+            acc.home_next_year.push (event);
         } else {
-            acc.home_later_future.push(event);
+            acc.home_later_future.push (event);
         }
 
         return acc;
@@ -87,11 +110,12 @@ const groupedEvents = computed(() => {
         home_later_this_year: [] as Event[],
         home_next_year: [] as Event[],
         home_later_future: [] as Event[],
+        home_past: [] as Event[],
     });
 });
 
 const goToCreationPage = () => {
-    router.push('/app/event/create')
+    router.push ('/app/event/create')
 }
 </script>
 

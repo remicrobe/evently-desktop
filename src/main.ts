@@ -15,7 +15,7 @@ import { createI18n } from "vue-i18n"; // Internationalisation
 import { createPinia } from 'pinia'; // Gestion d'état avec Pinia
 import { PersistentStore } from "./stores/Persistent.store";
 import { Settings } from "luxon";
-import {aliases, mdi} from "vuetify/iconsets/mdi"; // Importation des traductions
+import { aliases, mdi } from "vuetify/iconsets/mdi"; // Importation des traductions
 
 // Définition du thème par défaut pour Vuetify
 const defaultTheme = {
@@ -38,24 +38,24 @@ const defaultTheme = {
     },
 };
 
-async function initApp() {
+async function initApp () {
     // Wait for the locale to be fetched
-    const locale = await PersistentStore.getLocale();
+    const locale = await PersistentStore.getLocale ();
 
     if (locale) {
         Settings.defaultLocale = locale;
     }
 
     // Configuration de l'internationalisation (i18n)
-    const i18n = createI18n({
+    const i18n = createI18n ({
         legacy: false,
         locale: locale, // Définition de la langue par défaut
         fallbackLocale: 'en-EN', // Langue de secours
-        messages: Object.assign(locales), // Chargement des traductions
+        messages: Object.assign (locales), // Chargement des traductions
     });
 
     // Configuration de Vuetify avec le thème personnalisé
-    const vuetify = createVuetify({
+    const vuetify = createVuetify ({
         components,
         directives,
         icons: {
@@ -66,7 +66,7 @@ async function initApp() {
             },
         },
         locale: {
-            locale: locale ? locale.split('-')[0] : 'en',
+            locale: locale ? locale.split ('-')[ 0 ] : 'en',
             fallback: 'en',
         },
         theme: {
@@ -78,13 +78,13 @@ async function initApp() {
     });
 
     // Création et montage de l'application Vue
-    const app = createApp(App)
-        .use(router) // Activation du routeur
-        .use(vuetify) // Activation de Vuetify
-        .use(createPinia()) // Activation de Pinia
-        .use(i18n) // Activation d'i18n
-        .mount('#app'); // Montage de l'application
+    const app = createApp (App)
+        .use (router) // Activation du routeur
+        .use (vuetify) // Activation de Vuetify
+        .use (createPinia ()) // Activation de Pinia
+        .use (i18n) // Activation d'i18n
+        .mount ('#app'); // Montage de l'application
 }
 
 // Initialisation de l'application
-initApp();
+initApp ();
