@@ -36,7 +36,7 @@
                     <v-divider class="mt-5"></v-divider>
                 </v-col>
 
-                <v-col md="12" cols="12" class="text-white text-center">
+                <v-col md="12" cols="12" class="text-white text-center" v-if="!search">
                     <span>{{ t('add_friends_can_create') }}</span>
                     <add-friend>
                         <template v-slot:activator="{ openDialog }">
@@ -57,18 +57,39 @@
                 <v-col cols="12" md="12">
                     <v-row>
                         <v-col md="6" cols="12" v-for="user in filteredFriends" :key="user.id">
-                            <choose-plain
-                                icon="person"
-                                :color="selectedFriendUsername.includes(user.username!) ? 'white' : 'black-black200'"
-                                :icon-color="selectedFriendUsername.includes(user.username!) ? 'black' : 'white'"
-                                :class="selectedFriendUsername.includes(user.username!) ? 'text-black' : 'text-white'"
-                                position="prepend"
-                                @click="selectFriends(user.username!)"
-                            >
-                                {{ user.fullName }}
-                            </choose-plain>
+                            <v-row>
+                                <v-col md="7" cols="7" class="d-flex">
+                                    <custom-icons
+                                        icon="person"
+                                        color="white"
+                                        class="ma-auto"
+                                        :size="28"
+                                    ></custom-icons>
+
+                                    <span class="content-l-semibold text-white ma-auto ml-n2">
+                                         {{ user.fullName }}
+                                    </span>
+                                </v-col>
+                                <v-col md="5" cols="5">
+                                    <choose-plain
+                                        class="pt-5 pb-5"
+                                        :icon="selectedFriendUsername.includes(user.username!) ? 'checkmark' : undefined"
+                                        :color="selectedFriendUsername.includes(user.username!) ? 'white' : 'black-black200'"
+                                        :icon-color="selectedFriendUsername.includes(user.username!) ? 'black' : 'white'"
+                                        :class="selectedFriendUsername.includes(user.username!) ? 'text-black' : 'text-white'"
+                                        position="prepend"
+                                        @click="selectFriends(user.username!)"
+                                    >
+                                        {{ selectedFriendUsername.includes(user.username!) ? t('global_invited') : t('global_invite') }}
+                                    </choose-plain>
+                                </v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
+                </v-col>
+
+                <v-col cols="12" md="12" class="text-white mb-n5 mt-n5" v-if="search && filteredFriends.length === 0">
+                    <span class="content-l-semibold">{{ t('global_no_friend_found') }}</span>
                 </v-col>
 
                 <v-col md="12" cols="12" class="mt-8">

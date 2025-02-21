@@ -3,6 +3,7 @@ import { User } from "./User.model";
 import { RandomUtils } from "../utils/random.utils";
 import {Category} from "./Category.model";
 import { Folder } from "./Folder.model";
+import { Invitation } from "./Invitation.model";
 
 export class Event {
     id: number | undefined;
@@ -21,7 +22,7 @@ export class Event {
     userID: number | undefined;
     user: User | undefined;
     folderID: number | undefined;
-    joinedUser: User[] = [];
+    joinedUser: Invitation[] = [];
     friends: string[] = [];
     createdAt: Date | undefined;
     deletedAt: Date | undefined;
@@ -47,9 +48,9 @@ export class Event {
         if (object?.joinedUser) {
             this.friends = [];
             this.joinedUser = [];
-            for (const user of object.joinedUser) {
-                this.joinedUser.push(new User(user));
-                this.friends.push(user.username!);
+            for (const invitation of object.joinedUser) {
+                this.joinedUser.push(new Invitation(invitation));
+                this.friends.push(invitation.user?.username!);
             }
         }
         this.createdAt = object?.createdAt;

@@ -40,27 +40,19 @@
         <v-divider class="mt-5 mb-5 mr-4 ml-4"></v-divider>
 
         <div class="list-container align-center">
-            <create-folder>
-                <template v-slot:activator="{ openDialog }">
-                    <nav-item
-                        @click="openDialog"
-                        icon="folderPlus"
-                        :text="t('sidebar_add_folder')"
-                        color="black-black500"
-                    ></nav-item>
-                </template>
-            </create-folder>
+            <nav-item
+                @click="router.push('/app/folder/create/')"
+                icon="folderPlus"
+                :text="t('sidebar_add_folder')"
+                color="black-black500"
+            ></nav-item>
 
-            <create-category>
-                <template v-slot:activator="{ openDialog }">
-                    <nav-item
-                        @click="openDialog"
-                        icon="plusCircle"
-                        :text="t('sidebar_add_category')"
-                        color="black-black500"
-                    ></nav-item>
-                </template>
-            </create-category>
+            <nav-item
+                @click="router.push('/app/category/create/')"
+                icon="plusCircle"
+                :text="t('sidebar_add_category')"
+                color="black-black500"
+            ></nav-item>
         </div>
 
         <template v-if="folderStore.folders.length > 0">

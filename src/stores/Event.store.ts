@@ -73,14 +73,7 @@ export const useEventStore = defineStore({
             const index = this.events.findIndex(ev => ev.id === id);
 
             if (index !== -1) {
-                const eventToUpdate = this.events[index];
-
-                Object.keys(eventData).forEach(key => {
-                    if (key in eventToUpdate) {
-                        // @ts-ignore: On indique à TypeScript qu'on met à jour une propriété de type Event
-                        eventToUpdate[key] = eventData[key];
-                    }
-                });
+                this.events[index] = new Event(response.data);
             }
 
             return true;

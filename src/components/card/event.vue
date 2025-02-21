@@ -4,13 +4,11 @@
         :style="`background: linear-gradient(180deg, ${category?.color} 0%, ${makeItFade(category?.color!)} 100%)`"
         @click="() => isInvite ? route.push(`/app/event/invite/${inviteId}`) : route.push(`/app/event/${event?.id}`)"
     >
-        <!-- Titre -->
         <div>
             <h2 class="text-left content-h5">{{ event?.name }}</h2>
             <p class="text-left content-l-medium" style="color: #E5E5EA;">{{ event?.getFormattedDate() }}</p>
         </div>
 
-        <!-- Étiquette avec icône dossier -->
         <v-row v-if="event?.folderID">
             <v-col md="12" cols="12" class="text-start">
                 <div
@@ -25,7 +23,6 @@
             </v-col>
         </v-row>
 
-        <!-- Section du bas -->
         <v-row class="mt-n2">
             <v-col md="3" cols="3" class="text-start d-flex">
                 <div
@@ -45,8 +42,13 @@
 
             <v-col md="9" cols="9" class="d-flex flex-column fill-height">
                 <div class="mt-auto text-end">
-                    <p class="content-h3">{{ event?.getDiffToday() }}</p>
-                    <p class="content-xl-semibold">{{ t('detail_rest_time') }}</p>
+                    <template v-if="event?.getDiffToday() === '0'">
+                        <div class="content-h3 mt-5">{{ t('global_today') }}</div>
+                    </template>
+                    <template v-else>
+                        <p class="content-h3">{{ event?.getDiffToday() }}</p>
+                        <p class="content-xl-semibold">{{ t('detail_rest_time') }}</p>
+                    </template>
                 </div>
             </v-col>
         </v-row>

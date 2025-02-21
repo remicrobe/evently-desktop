@@ -4,20 +4,15 @@
         fluid
     >
         <v-row justify="center" align="center" class="justify-center align-center ma-auto" >
-            <v-col md="5" cols="12" class="onboarding-card text-start">
+            <v-col md="4" cols="12" class="onboarding-card text-start">
                 <v-row class="ma-3">
                     <v-col md="12" cols="12">
-                        <span class="text-white content-l-medium">{{ t('auth_classic_desc') }}</span>
-                        <v-divider class="mt-7 mb-7"></v-divider>
-                    </v-col>
-
-                    <v-col md="12" cols="12" class="mt-n8">
                         <span>{{ t('auth_email') }}</span>
                         <completed v-model="email" class="mb-6 mt-1" placeholder="theo@gmail.com"></completed>
                     </v-col>
 
                     <template v-if="needLogin">
-                        <v-col md="12" cols="12" class="mt-n7">
+                        <v-col md="12" cols="12" class="mt-n8">
                             <span>{{ t('auth_password') }}</span>
                             <completed v-model="password" class="mb-6 mt-1" placeholder="P@ssword"
                                        type="password"></completed>
@@ -25,23 +20,23 @@
                     </template>
 
                     <template v-if="needRegister">
-                        <v-col md="6" cols="6" class="mt-n7">
+                        <v-col md="12" cols="12" class="mt-n8">
                             <span>{{ t('auth_last_name') }}</span>
                             <completed v-model="lastName" class="mb-6 mt-1" placeholder="SEMENTA"></completed>
                         </v-col>
 
-                        <v-col md="6" cols="6" class="mt-n7">
+                        <v-col md="12" cols="12" class="mt-n8">
                             <span>{{ t('auth_first_name') }}</span>
                             <completed v-model="firstName" class="mb-6 mt-1" placeholder="Theo"></completed>
                         </v-col>
 
-                        <v-col md="6" cols="6" class="mt-n7">
+                        <v-col md="12" cols="12" class="mt-n8">
                             <span>{{ t('auth_password') }}</span>
                             <completed v-model="password" class="mb-6 mt-1" placeholder="P@ssword"
                                        type="password"></completed>
                         </v-col>
 
-                        <v-col md="6" cols="6" class="mt-n7">
+                        <v-col md="12" cols="12" class="mt-n8">
                             <span>{{ t('auth_confirm_password') }}</span>
                             <completed v-model="confirmPassword" class="mb-6 mt-1" placeholder="P@ssword"
                                        type="password"></completed>
@@ -49,12 +44,48 @@
                     </template>
 
                     <v-col md="12" cols="12">
-                        <choose-plain v-if="needLogin" @click="login" :placeholder="t('auth_connection')" icon="sparkes"
-                                      class="content-l-bold" position="prepend"></choose-plain>
-                        <choose-plain v-else-if="needRegister" @click="register" placeholder="S'inscrire" icon="sparkes"
-                                      class="content-l-bold" position="prepend"></choose-plain>
-                        <choose-plain v-else @click="submit" :placeholder="t('auth_confirm')" icon="sparkes"
-                                      class="content-l-bold" position="prepend"></choose-plain>
+                        <choose-plain
+                            v-if="needLogin"
+                            @click="login"
+                            :placeholder="t('auth_connection')"
+                            icon="sparkes"
+                            :class="email?.length > 0 && password?.length > 0 ? 'content-l-bold' : 'content-l-bold text-black-black500'"
+                            :color="email?.length > 0 && password?.length > 0 ? 'white' : 'black-black200'"
+                            :icon-color="email?.length > 0 && password?.length > 0 ? 'black' : 'black-black500'"
+                            position="prepend"
+                        ></choose-plain>
+
+                        <choose-plain
+                            v-else-if="needRegister"
+                            @click="register"
+                            placeholder="S'inscrire"
+                            icon="sparkes"
+                            class="content-l-bold"
+                            position="prepend"
+                        ></choose-plain>
+
+                        <choose-plain
+                            v-else
+                            @click="submit"
+                            :placeholder="t('auth_confirm')"
+                            icon="sparkes"
+                            class="content-l-bold"
+                            position="prepend"
+                        ></choose-plain>
+                    </v-col>
+
+                    <v-col md="12" cols="12" v-if="!needRegister" class="mt-2 mb-2 text-center">
+                        <v-divider></v-divider>
+
+                        <div class="content-l-medium mt-15">{{ t('auth_new_evently') }}</div>
+
+                        <choose-clear
+                            class="mt-5"
+                            position="prepend"
+                            icon="sparkes"
+                            :placeholder="t('auth_create_account')"
+                            @click="switchMode"
+                        ></choose-clear>
                     </v-col>
                 </v-row>
             </v-col>
@@ -89,7 +120,12 @@ const confirmPassword = ref();
 const lastName = ref();
 const email = ref();
 const needRegister = ref(false);
-const needLogin = ref(false);
+const needLogin = ref(true);
+
+const switchMode = () => {
+    needLogin.value = !needLogin.value;
+    needRegister.value = !needRegister.value;
+}
 
 const submit = async () => {
     if (!email.value || !email.value.includes("@")) {
@@ -161,11 +197,6 @@ const login = async () => {
         toast.success({key: 'toast_general_error'});
     }
 }
-
-watch(() => email.value, () => {
-    needRegister.value = false;
-    needLogin.value = false;
-});
 </script>
 
 

@@ -1,7 +1,7 @@
 <template>
     <v-btn
-        :style="`background-color: ${vuetifyColor}; border: 2px solid ${vuetifyColor}`"
-        class="custom-button content-l-semibold"
+        :style="`background-color: ${vuetifyColor}; border: 2px solid ${borderColor ?? vuetifyColor}; justify-content: ${justify} !important`"
+        class="custom-button content-l-bold"
     >
         <template v-slot:prepend v-if="position === 'prepend'">
             <custom-icons
@@ -20,6 +20,7 @@
                 :size="iconSize"
                 class="mr-n3"
                 :icon="icon"
+                :style="justify === 'start' ? 'position: absolute; right: 0; margin-right: 25px !important' : ''"
                 :color="iconColor"
             >
             </custom-icons>
@@ -63,7 +64,7 @@ import { useTheme } from "vuetify"
 const props = defineProps({
     icon: {
         type: String,
-        default: 'plusCircle'
+        required: false
     },
     placeholder: {
         type: String,
@@ -81,9 +82,17 @@ const props = defineProps({
         type: String,
         default: 'black'
     },
+    borderColor: {
+        type: String,
+        default: null
+    },
     iconSize: {
         type: Number,
         default: 24
+    },
+    justify: {
+        type: String,
+        default: 'center'
     },
     modelValue: Boolean
 })

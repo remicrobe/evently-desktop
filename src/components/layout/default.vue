@@ -15,19 +15,15 @@
                     class="text-end"
                 >
                     <div class="d-inline-flex mr-3" v-if="folderStore.selectedFolderId !== -1">
-                        <create-folder :id="folderStore.selectedFolderId">
-                            <template v-slot:activator="{ openDialog }">
-                                <choose-clear
-                                    @click="openDialog"
-                                    style="order: -1"
-                                    icon="edit"
-                                    position="prepend"
-                                    class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
-                                >
-                                    {{t('detail_edit')}}
-                                </choose-clear>
-                            </template>
-                        </create-folder>
+                        <choose-clear
+                            @click="router.push(`/app/folder/edit/${folderStore.selectedFolderId}`)"
+                            style="order: -1"
+                            icon="edit"
+                            position="prepend"
+                            class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
+                        >
+                            {{ t ('detail_edit') }}
+                        </choose-clear>
 
                         <delete-folder :folder-id="folderStore.selectedFolderId">
                             <template v-slot:activator="{ openDialog }">
@@ -46,19 +42,15 @@
                     </div>
 
                     <div class="d-inline-flex mr-3" v-if="categoryStore.selectedCategoryId !== -1 && !categoryStore.selectedCategory?.default">
-                        <create-category :id="categoryStore.selectedCategoryId">
-                            <template v-slot:activator="{ openDialog }">
-                                <choose-clear
-                                    @click="openDialog"
-                                    style="order: -1"
-                                    icon="edit"
-                                    position="prepend"
-                                    class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
-                                >
-                                    {{t('detail_edit')}}
-                                </choose-clear>
-                            </template>
-                        </create-category>
+                        <choose-clear
+                            @click="router.push(`/app/category/edit/${categoryStore.selectedCategoryId}`)"
+                            style="order: -1"
+                            icon="edit"
+                            position="prepend"
+                            class="mr-2 w-auto pa-5 hide-mobile-icon content-l-bold"
+                        >
+                            {{ t ('detail_edit') }}
+                        </choose-clear>
 
                         <delete-category :category-id="categoryStore.selectedCategoryId">
                             <template v-slot:activator="{ openDialog }">
