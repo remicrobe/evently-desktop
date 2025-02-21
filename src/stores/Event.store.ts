@@ -114,6 +114,26 @@ export const useEventStore = defineStore({
                 }
             }
             return true;
+        },
+        async joinEvent(inviteToken: string) {
+            const response = await useApiService.post('/events/join', { inviteToken });
+
+            if (!response.success) {
+                useToastStore().success({ key: 'toast_error_joining_event' });
+                return false;
+            }
+
+            const updatedEvent = new Event(response.data);
+
+            const index = this.events.findIndex(ev => ev.id === updatedEvent.id);
+            if (index !== -1) {
+                this.events[index] = updatedEvent;
+            } else {
+                this.events.push(updatedEvent);
+            }
+
+            useToastStore().success({ key: 'toast_success_joining_event' });
+            return true;
         }
     },
 });

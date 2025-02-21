@@ -24,24 +24,41 @@
 </template>
 
 <script setup lang="ts">
-import { Vue3Lottie } from "vue3-lottie";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useUserStore } from "../../stores/User.store";
-import { useGlobalStore } from "../../stores/Global.store";
+import {Vue3Lottie} from "vue3-lottie";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
+import {useUserStore} from "../../stores/User.store";
+import {useGlobalStore} from "../../stores/Global.store";
 import animation from '../../animation/splash.json';
+import {useToastStore} from "../../stores/Toast.store";
+import {useEventStore} from "../../stores/Event.store";
 
 const animationEnded = ref(false);
 const router = useRouter();
 const userStore = useUserStore();
+
+const token = ref(router.currentRoute.value.params.token)
+
+if (token.value) {
+    window.location.href = `evently://invite?inviteToken=${token.value}`;
+}
 
 async function handleAnimationComplete() {
     animationEnded.value = true;
 
     if (await userStore.refreshUserWithRefreshToken()) {
         await useGlobalStore.init()
+
+        if (token.value) {
+            await useEventStore().joinEvent(token.value as string)
+        }
+
         await router.push('/app/')
     } else {
+        if (token.value) {
+            useToastStore().success({ key: 'toast_error_joining_no_log' });
+        }
+
         await router.push('/onboarding');
     }
 

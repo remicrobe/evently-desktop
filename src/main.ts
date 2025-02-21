@@ -15,7 +15,8 @@ import { createI18n } from "vue-i18n"; // Internationalisation
 import { createPinia } from 'pinia'; // Gestion d'état avec Pinia
 import { PersistentStore } from "./stores/Persistent.store";
 import { Settings } from "luxon";
-import { aliases, mdi } from "vuetify/iconsets/mdi"; // Importation des traductions
+import { aliases, mdi } from "vuetify/iconsets/mdi";
+import { VTimePicker } from 'vuetify/labs/VTimePicker'
 
 // Définition du thème par défaut pour Vuetify
 const defaultTheme = {
@@ -56,7 +57,10 @@ async function initApp () {
 
     // Configuration de Vuetify avec le thème personnalisé
     const vuetify = createVuetify ({
-        components,
+        components: {
+            VTimePicker,
+            ...components
+        },
         directives,
         icons: {
             defaultSet: 'mdi',

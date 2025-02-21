@@ -109,12 +109,22 @@ app.on('second-instance', (ev, argv) => {
         if (win.isMinimized()) win.restore()
         win.focus()
     }
+
     let deeplinkingUrl = argv.find((arg) => arg.startsWith('evently://'));
     let args = deeplinkingUrl?.split('evently://')[1]
+
     const params = new URLSearchParams(args?.split("?")[1]);
+
     const dataString = params.get("data");
-    const jsonData = JSON.parse(decodeURIComponent(dataString));
-    win.webContents.send('auth', jsonData);
+    if (dataString) {
+        const jsonData = JSON.parse(decodeURIComponent(dataString));
+        win.webContents.send('auth', jsonData);
+    }
+
+    const inviteToken = params.get("inviteToken");
+    if (inviteToken) {
+        win.webContents.send('invite', inviteToken);
+    }
 })
 
 app.on('activate', () => {

@@ -66,7 +66,7 @@
                                         {{ remainingTime.days }}
                                     </span>
 
-                                    <span v-if="remainingTime.days" class="content-xl-semibold">
+                                    <span v-if="remainingTime.days" class="content-xl-semibold mr-4">
                                         jour{{ remainingTime.days > 1 ? 's' : '' }}
                                     </span>
 

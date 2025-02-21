@@ -136,11 +136,27 @@
                                 </choose-plain>
                             </template>
 
-                            <v-date-picker
-                                hide-header
-                                v-model="event.targetDate"
-                                color="dark"
-                            ></v-date-picker>
+                            <v-card :max-width="allDay ? '30%' : '64%'" class="bg-black-black100">
+                                <v-row>
+                                    <v-col md="6" cols="6" >
+                                        <v-date-picker
+                                            v-model="event.targetDate"
+                                            class="bg-black-black100"
+                                            hide-header
+                                        ></v-date-picker>
+                                    </v-col>
+
+                                    <v-col md="6" cols="6" v-if="!allDay">
+                                        <v-time-picker
+                                            v-model="time"
+                                            format="24hr"
+                                            class="bg-black-black100 mt-5"
+                                            hide-header
+                                            color="black"
+                                        ></v-time-picker>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
                         </v-menu>
                     </v-col>
                 </v-row>
@@ -213,7 +229,6 @@ import ChooseFriends from "../../../components/dialog/choose-friends.vue";
 import {useToastStore} from "../../../stores/Toast.store";
 import { useI18n } from "vue-i18n";
 import { useGlobalStore } from "../../../stores/Global.store";
-import DatetimePicker from "../../../components/global/date-time-picker.vue";
 
 let totalStep = ref(3);
 let step = ref(1);
@@ -224,11 +239,17 @@ const event = ref(new Event());
 const eventStore = useEventStore()
 const router = useRouter()
 let allDay = ref(true);
+let time = ref('');
 
 watch(allDay, () => {
-    if (!allDay.value) {
+    if (allDay.value) {
         event.value.targetDate =  DateTime.fromJSDate(event.value.targetDate!).isValid ? DateTime.fromJSDate(event.value.targetDate!).startOf('day').toJSDate() : undefined;
     }
+})
+
+watch (time, ()=> {
+    const hhmm = time.value.split(':').map(hm => Number(hm));
+    event.value.targetDate = DateTime.fromJSDate(event.value.targetDate!).set({ hour: hhmm[0], minute: hhmm[1] }).toJSDate()
 })
 
 const eventId = ref(router.currentRoute.value.params.id)
@@ -236,7 +257,7 @@ const eventId = ref(router.currentRoute.value.params.id)
 if (eventId.value) {
     event.value = new Event(eventStore.getEventById(Number(eventId.value)))
     if (event.value.targetDate?.getHours ?? 0 !== 0) {
-        allDay.value = true;
+        allDay.value = false;
     }
 }
 
@@ -320,5 +341,9 @@ const selectFolder = (id: number) => {
 
 .v-progress-linear__content {
     justify-content: start !important;
+}
+
+.v-time-picker-clock__item {
+    color: grey!important;
 }
 </style>

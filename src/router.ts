@@ -33,6 +33,8 @@ const routes = [
     { path: '/app/folder/edit/:id', isLogin: true, component: AppFolderCreateView },
     // User part
     { path: '/app/profile', isLogin: true, component: ProfileView },
+    // Auth part
+    { path: '/join/:token', isLogin: false, component: SplashScreen },
 ];
 
 const router = createRouter ({
@@ -41,7 +43,6 @@ const router = createRouter ({
 });
 
 router.beforeEach ((to, from, next) => {
-    console.log ("Changement de route vers :", to.fullPath);
     const userStore = useUserStore ();
 
     const path = to.path.endsWith ('/') ? to.path.slice (0, -1) : to.path;
