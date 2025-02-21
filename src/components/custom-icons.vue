@@ -69,6 +69,9 @@ const availableIcons: Record<string, string> = {
     ticket: "./assets/icons/ticket.svg",
     questionmark: "./assets/icons/questionmark.svg",
     checkmarkCircle: "./assets/icons/checkmarkCircle.svg",
+    checkbox: "./assets/icons/checkbox.svg",
+    cross: "./assets/icons/cross.svg",
+    checkboxChecked: "./assets/icons/checkbox-checked.svg",
 } as const;
 
 const props = defineProps({

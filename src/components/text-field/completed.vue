@@ -1,5 +1,5 @@
 <template>
-    <div class="text-field-container">
+    <div class="text-field-container" :style="value?.length > 0 ? 'border: 2px solid #FFFFFF' : 'border: 2px solid #2D2D2D'">
         <input
             :type="type ?? 'text'"
             v-model="value"
@@ -34,8 +34,8 @@ value.value = props.modelValue;
     align-items: center;
     padding: 16px;
     gap: 10px;
-    border: 2px solid #FFFFFF;
     border-radius: 16px;
+    transition: border 0.3s ease-in-out;
 }
 
 .text-field {

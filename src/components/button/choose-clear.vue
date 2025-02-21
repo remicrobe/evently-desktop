@@ -1,6 +1,7 @@
 <template>
     <v-btn
-        class="custom-button content-l-semibold"
+        class="custom-button content-l-bold"
+        :style="`justify-content: ${justify} !important`"
     >
         <template
             v-slot:prepend
@@ -25,6 +26,7 @@
                 :size="iconSize"
                 class="mr-n2"
                 :icon="icon"
+                :style="justify === 'start' ? 'position: absolute; right: 0; margin-right: 25px !important' : ''"
                 color="white"
             >
             </custom-icons>
@@ -87,6 +89,10 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: "Choisir une catégorie"
-    }
+    },
+    justify: {
+        type: String,
+        default: 'center'
+    },
 })
 </script>

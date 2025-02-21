@@ -6,6 +6,7 @@
             :color="authColor"
             :placeholder="authText"
             @click="loginWithApple"
+            justify="start"
         ></choose-plain>
     </template>
 
@@ -16,6 +17,7 @@
             position="append"
             :color="authColor"
             :placeholder="authText"
+            justify="start"
         ></choose-clear>
     </template>
 </template>

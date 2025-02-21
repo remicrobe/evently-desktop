@@ -37,7 +37,7 @@
                     <v-divider class="mt-5"></v-divider>
                 </v-col>
 
-                <v-col md="12" cols="12" class="text-white text-center">
+                <v-col md="12" cols="12" class="text-white text-center" v-if="!search">
                     <span>
                         {{ t('add_folder_can_create') }}
                     </span>
@@ -72,6 +72,10 @@
                             </choose-plain>
                         </v-col>
                     </v-row>
+                </v-col>
+
+                <v-col cols="12" md="12" class="text-white mb-n5 mt-n5" v-if="search && filteredFolders.length === 0">
+                    <span class="content-l-semibold">{{ t('add_folder_empty') }}</span>
                 </v-col>
 
                 <v-col md="12" cols="12" class="mt-8">

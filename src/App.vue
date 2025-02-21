@@ -19,12 +19,21 @@ import { useRouter } from "vue-router";
 import { computed } from "vue";
 import Toast from "./components/global/toast.vue";
 import UpdateModal from "./components/dialog/update-modal.vue";
+import {useUserStore} from "./stores/User.store";
+import {useEventStore} from "./stores/Event.store";
 
 const router = useRouter()
 
 if (window.ipcRenderer) {
     window.ipcRenderer.invoke('ready');
 }
+
+if (window.ipcRenderer) {
+    window.ipcRenderer.on('invite', (event, message) => {
+        useEventStore().joinEvent(message);
+    });
+}
+
 </script>
 
 <style>

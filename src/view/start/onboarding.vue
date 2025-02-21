@@ -3,14 +3,14 @@
         class="fill-height"
         fluid
     >
-        <v-row justify="center" align="center" class="justify-center align-center ma-auto">
+        <v-row align="center" class="justify-center align-center ma-auto">
             <v-col md="6" cols="12" class="onboarding-card text-start">
                 <v-row class="ma-3">
                     <template v-if="step === 1">
                         <v-col md="6" cols="12" class="text-white">
                             <v-row>
                                 <v-col md="10" cols="10">
-                                    <span class="content-h4">{{ t('onboarding_welcome') }} Evently</span>
+                                    <span class="content-h3">Evently</span>
                                 </v-col>
 
                                 <v-col md="2" cols="2">
@@ -23,26 +23,22 @@
                                 </v-col>
                             </v-row>
 
-                            <br/><br/>
+                            <br/>
 
-                            <span>
-                        {{ t('onboarding_textOne') }} <br/><br/>
-                        {{ t('onboarding_textTwo') }} <br/><br/>
-                        {{ t('onboarding_textThree') }} <br/><br/>
-                    </span>
+                            <span class="content-h5"> {{ t('onboarding_step_one_title') }} </span> <br/> <br/>
+                            <span class="content-l-semibold">{{ t('onboarding_step_one_desc') }}</span>
                         </v-col>
 
-                        <v-col md="6" col="12">
-                            <div class="justify-center align-center d-flex ma-9">
-                                <v-img
-                                    width="70%"
-                                    src="./assets/onboarding/having-fun.png"
-                                ></v-img>
-                            </div>
+                        <v-col md="6" cols="12" style="text-align: right">
+                            <v-img
+                                height="200px"
+                                position="right"
+                                src="./assets/onboarding/database.png"
+                            ></v-img>
                         </v-col>
 
                         <v-col md="12" cols="12">
-                            <choose-plain @click="step = 2" :placeholder="t('global_continue')"></choose-plain>
+                            <choose-plain class="content-l-bold" @click="step = 2" :placeholder="t('global_continue')"></choose-plain>
                         </v-col>
                     </template>
 
@@ -50,7 +46,7 @@
                         <v-col md="6" cols="12" class="text-white">
                             <v-row>
                                 <v-col md="10" cols="10">
-                                    <span class="content-h4">{{ t('onboarding_welcome') }} Evently</span>
+                                    <span class="content-h3">Evently</span>
                                 </v-col>
 
                                 <v-col md="2" cols="2">
@@ -63,25 +59,63 @@
                                 </v-col>
                             </v-row>
 
-                            <br/><br/>
+                            <br/>
 
-                            <span>
-                        {{ t('onboarding_textFour') }}<br/><br/>
-                        {{ t('onboarding_textFive') }}
-                    </span>
+                            <span class="content-h5">{{ t('onboarding_step_two_title') }}</span> <br/><br/>
+                            <span class="content-l-semibold">{{ t('onboarding_step_two_desc') }}</span>
                         </v-col>
 
                         <v-col md="6" col="6">
-                            <div class="justify-center align-center d-flex ma-9">
-                                <v-img
-                                    width="70%"
-                                    src="./assets/onboarding/organise-resume.png"
-                                ></v-img>
-                            </div>
+                            <v-img
+                                height="200px"
+                                position="right"
+                                src="./assets/onboarding/party.png"
+                            ></v-img>
                         </v-col>
 
                         <v-col md="12" cols="12">
-                            <choose-plain @click="goToAuth" :placeholder="t('global_start')"></choose-plain>
+                            <choose-plain @click="step = 3" :placeholder="t('global_continue')"></choose-plain>
+                        </v-col>
+                    </template>
+
+                    <template v-if="step === 3">
+                        <v-col md="6" cols="12" class="text-white">
+                            <v-row>
+                                <v-col md="10" cols="10">
+                                    <span class="content-h3">Evently</span>
+                                </v-col>
+
+                                <v-col md="2" cols="2">
+                                    <v-avatar
+                                        class="rounded"
+                                        :rounded="false"
+                                        size="35"
+                                        image="./assets/logo.png"
+                                    ></v-avatar>
+                                </v-col>
+                            </v-row>
+
+                            <br/>
+
+                            <span class="content-h5">{{ t('onboarding_step_three_title') }}</span> <br/><br/>
+                            <span class="content-l-semibold">{{ t('onboarding_step_three_desc') }}</span>
+                        </v-col>
+
+                        <v-col md="6" col="6">
+                            <v-img
+                                height="200px"
+                                position="right"
+                                src="./assets/onboarding/hanging-out.png"
+                            ></v-img>
+                        </v-col>
+
+                        <v-col md="12" cols="12">
+                            <choose-plain
+                                @click="goToAuth"
+                                :placeholder="t('global_continue')"
+                                icon="sparkes"
+                                position="prepend"
+                            ></choose-plain>
                         </v-col>
                     </template>
                 </v-row>

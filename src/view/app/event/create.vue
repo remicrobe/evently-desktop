@@ -21,14 +21,15 @@
                 color="white"
                 height="38"
                 class="mb-6 mb-n1 progress"
+                style="border-radius: 20px !important; height: 50px !important;"
             >
                 <strong class="text-black content-m-bold ml-5">{{ t('add_event_step') }} {{ step }} / {{ totalStep }}</strong>
             </v-progress-linear>
         </v-col>
 
         <template v-if="step === 1">
-            <v-col md="7" cols="12">
-                <span>{{ t('add_event_name') }}</span>
+            <v-col md="7" cols="12" class="mt-10">
+                <span class="ml-2">{{ t('add_event_name') }}</span>
                 <completed
                     v-model="event.name"
                     class="mb-6 mt-1"
@@ -39,7 +40,7 @@
             <v-col md="7" cols="12" class="mt-n5">
                 <v-row>
                     <v-col md="6" cols="12">
-                        <span>{{ t('add_event_category') }}</span>
+                        <span class="ml-2">{{ t('add_event_category') }}</span>
                         <choose-category
                             :selected-category-id="event.categoryID"
                             @category-selected="(id) => event.categoryID = id"
@@ -47,11 +48,15 @@
                     </v-col>
 
                     <v-col md="6" cols="12" class="mt-5 mt-md-0 ml-sm-0 mt-n1 mr-sm-0">
-                        <span>{{ t('add_event_folder_shared') }}</span>
+                        <span class="ml-2">{{ t('add_event_folder_shared') }}</span>
                         <choose-folder
                             :selected-folder-id="event.folderID"
                             @folder-selected="(id) => selectFolder(id)"
                         ></choose-folder>
+                    </v-col>
+
+                    <v-col md="12" cols="12" class="mb-10 mt-n5">
+                        <span class="content-m-semibold mr-2">{{ t('add_event_text1') }}</span>
                     </v-col>
                 </v-row>
             </v-col>
@@ -60,35 +65,37 @@
         <template v-if="step === 2">
             <v-col md="7" cols="12" class="mt-5">
                 <v-row>
-                    <v-col md="6" cols="12">
-                        <span >{{ t('add_event_choose_date') }}</span>
-
-                        <v-menu :close-on-content-click="false">
-                            <template v-slot:activator="{ props }">
-                                <choose-clear
-                                    icon="calendar"
-                                    position="prepend"
-                                    v-bind="props"
-                                >
-                                    {{ DateTime.fromJSDate(event.targetDate!).isValid ? DateTime.fromJSDate(event.targetDate!).toLocaleString() : t('add_event_choose_date') }}
-                                </choose-clear>
-                            </template>
-
-                            <v-date-picker v-model="event.targetDate"></v-date-picker>
-                        </v-menu>
+                    <v-col md="6" cols="12" class="mt-5 mt-md-0 mt-n1 ml-sm-0 mr-sm-0">
+                        <span class="ml-2">{{ t('add_event_event_duration') }}</span>
+                        <choose-plain
+                            color="black-black100"
+                            icon-color="white"
+                            class="text-white"
+                            :icon="allDay ? 'checkboxChecked' : 'cross'"
+                            border-color="#2D2D2D"
+                            @click="allDay = !allDay"
+                            position="append"
+                            justify="start"
+                        >
+                            {{ t('add_event_all_day') }}
+                        </choose-plain>
                     </v-col>
 
                     <v-col md="6" cols="12" class="mt-5 mt-md-0 mt-n1 ml-sm-0 mr-sm-0">
-                        <span>{{ t('add_event_reccurence') }}</span>
+                        <span class="ml-2">{{ t('add_event_reccurence') }}</span>
                         <v-menu>
                             <template v-slot:activator="{ props }">
-                                <choose-clear
+                                <choose-plain
+                                    color="black-black100"
+                                    icon-color="white"
+                                    class="text-white"
                                     icon="chevronMenu"
+                                    border-color="#2D2D2D"
                                     position="prepend"
                                     v-bind="props"
                                 >
-                                    {{ event.recurrencePattern }}
-                                </choose-clear>
+                                    {{ t(event.recurrencePattern!) }}
+                                </choose-plain>
                             </template>
 
                             <v-list>
@@ -103,6 +110,55 @@
                             </v-list>
                         </v-menu>
                     </v-col>
+
+                    <v-col md="12" cols="12">
+                        <span class="ml-2">{{ t('add_event_choose_date') }}</span>
+
+                        <v-menu :close-on-content-click="false">
+                            <template v-slot:activator="{ props }">
+                                <choose-plain
+                                    color="black-black100"
+                                    icon-color="white"
+                                    class="text-white mb-15"
+                                    border-color="#2D2D2D"
+                                    icon="calendar"
+                                    position="prepend"
+                                    v-bind="props"
+                                >
+                                    {{
+                                        DateTime.fromJSDate(event.targetDate!).isValid
+                                        ?
+                                            allDay
+                                                ? DateTime.fromJSDate(event.targetDate!).toFormat("dd/MM/yyyy")
+                                                : DateTime.fromJSDate(event.targetDate!).toFormat("dd/MM/yyyy HH:mm")
+                                        : t('add_event_choose_date')
+                                    }}
+                                </choose-plain>
+                            </template>
+
+                            <v-card :max-width="allDay ? '30%' : '64%'" class="bg-black-black100">
+                                <v-row>
+                                    <v-col md="6" cols="6" >
+                                        <v-date-picker
+                                            v-model="event.targetDate"
+                                            class="bg-black-black100"
+                                            hide-header
+                                        ></v-date-picker>
+                                    </v-col>
+
+                                    <v-col md="6" cols="6" v-if="!allDay">
+                                        <v-time-picker
+                                            v-model="time"
+                                            format="24hr"
+                                            class="bg-black-black100 mt-5"
+                                            hide-header
+                                            color="black"
+                                        ></v-time-picker>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-menu>
+                    </v-col>
                 </v-row>
             </v-col>
         </template>
@@ -111,7 +167,7 @@
             <v-col md="7" cols="12" class="mt-5">
                 <v-row>
                     <v-col md="6" cols="12">
-                        <span >{{ t('global_friends') }}</span>
+                        <span class="ml-2">{{ t('global_friends') }}</span>
                         <choose-friends
                             :selected-friend-username="event.friends"
                             @friend-added="(username) => event.friends.push(username)"
@@ -120,7 +176,7 @@
                     </v-col>
 
                     <v-col md="6" cols="12" class="mt-5 mt-md-0 mt-n1 ml-sm-0 mr-sm-0">
-                        <span>{{ t('detail_invite_link') }}</span>
+                        <br/>
                         <choose-clear
                             icon="copy"
                             position="prepend"
@@ -129,23 +185,32 @@
                             {{ t('detail_copy_link') }}
                         </choose-clear>
                     </v-col>
+
+                    <v-col md="12" cols="12" class="mb-10 mt-n5">
+                        <span class="content-m-semibold mr-2">{{ t('add_event_text2') }}</span>
+                    </v-col>
                 </v-row>
             </v-col>
         </template>
 
-        <v-col md="7" cols="12" >
+        <v-col md="7" cols="12" class="bottom-0 position-absolute pr-7 pl-7">
             <choose-plain
-                class="mb-6 mt-6 text-white"
-                color="black-black200"
-                :placeholder="t('add_event_nextstep')"
+                class="mb-6"
+                :icon="canGoNextStep && step === totalStep ? 'sparkes' : undefined"
+                :color="canGoNextStep ? 'white' : 'black-black200'"
+                :icon-color="canGoNextStep ? 'black' : 'white'"
+                :class="canGoNextStep ? 'text-black' : 'text-white'"
+                position="prepend"
                 @click="nextStep"
-            ></choose-plain>
+            >
+                {{ step === totalStep ? t('global_finish') : t('add_event_nextstep') }}
+            </choose-plain>
         </v-col>
     </v-row>
 
-    <choose-clear class="cancel-button border-0 hide-mobile-icon" color="black-black100 pa-6" icon="xmark" position="prepend" @click="router.push('/app')">
+    <choose-plain border-color="#2D2D2D" icon-color="white" class="cancel-button text-white hide-mobile-icon" color="black-black100" icon="xmark" position="prepend" @click="router.push('/app')">
         {{t('add_event_cancel')}}
-    </choose-clear>
+    </choose-plain>
 </template>
 <script setup lang="ts">
 import Default from "../../../components/layout/default.vue";
@@ -154,7 +219,7 @@ import ChooseClear from "../../../components/button/choose-clear.vue";
 import Completed from "../../../components/text-field/completed.vue";
 import ChoosePlain from "../../../components/button/choose-plain.vue";
 import {useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import ChooseCategory from "../../../components/dialog/choose-category.vue";
 import ChooseFolder from "../../../components/dialog/choose-folder.vue";
 import { Event } from "../../../models/Event.model";
@@ -173,28 +238,45 @@ const { t, locale } = useI18n({ useScope: 'global' });
 const event = ref(new Event());
 const eventStore = useEventStore()
 const router = useRouter()
+let allDay = ref(true);
+let time = ref('');
+
+watch(allDay, () => {
+    if (allDay.value) {
+        event.value.targetDate =  DateTime.fromJSDate(event.value.targetDate!).isValid ? DateTime.fromJSDate(event.value.targetDate!).startOf('day').toJSDate() : undefined;
+    }
+})
+
+watch (time, ()=> {
+    const hhmm = time.value.split(':').map(hm => Number(hm));
+    event.value.targetDate = DateTime.fromJSDate(event.value.targetDate!).set({ hour: hhmm[0], minute: hhmm[1] }).toJSDate()
+})
 
 const eventId = ref(router.currentRoute.value.params.id)
 
 if (eventId.value) {
     event.value = new Event(eventStore.getEventById(Number(eventId.value)))
+    if (event.value.targetDate?.getHours ?? 0 !== 0) {
+        allDay.value = false;
+    }
 }
 
-const nextStep = async () => {
-    // Validation pour passer de l'étape 1 à l'étape 2
+const canGoNextStep = computed(() => {
     if (step.value === 1) {
-        if (!event.value.name || !event.value.categoryID) {
-            toast.success({ key: 'toast_need_category_create_event'});
-            return; // Empêche le passage à l'étape suivante
-        }
+        return !!(event.value.name && event.value.categoryID);
     }
 
-    // Validation pour passer de l'étape 2 à l'étape 3
     if (step.value === 2) {
-        if (!DateTime.fromJSDate(event.value.targetDate!).isValid) {
-            toast.success({ key: 'toast_need_date_create_event' });
-            return; // Empêche le passage à l'étape suivante
-        }
+        return DateTime.fromJSDate(event.value.targetDate!).isValid;
+    }
+
+    return true;
+});
+
+const nextStep = async () => {
+    if (!canGoNextStep.value) {
+        toast.success({ key: step.value === 1 ? 'toast_need_category_create_event' : 'toast_need_date_create_event' });
+        return;
     }
 
     if (step.value === totalStep.value) {
@@ -259,5 +341,9 @@ const selectFolder = (id: number) => {
 
 .v-progress-linear__content {
     justify-content: start !important;
+}
+
+.v-time-picker-clock__item {
+    color: grey!important;
 }
 </style>

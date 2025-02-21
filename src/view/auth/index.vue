@@ -7,7 +7,7 @@
             <v-col md="7" cols="12" class="onboarding-card text-start">
                 <v-row class="ma-3">
                     <template v-if="step === 1">
-                        <v-col md="6" cols="12" class="text-white">
+                        <v-col md="7" cols="12" class="text-white">
                             <v-row>
                                 <v-col md="12" cols="12">
                                     <v-avatar
@@ -20,11 +20,11 @@
                                 </v-col>
                             </v-row>
                             <br/>
-                            <span>
+                            <span class="content-l-medium">
                         {{ t('auth_nevermiss') }} <br/><br/>
-                        {{ t('auth_letus') }}
+                        {{ t('auth_desc') }}
                         </span>
-                            <login method="apple" @click="loginWithApple" class="mt-4"></login>
+                            <login method="apple" @click="loginWithApple" class="mt-7"></login>
                             <login method="google" @click="loginWithGoogle" class="mt-4"></login>
                             <login method="guest" class="mt-4" @click="router.push('/auth/classic')"></login>
                         </v-col>
@@ -35,8 +35,8 @@
                                 :thickness="3"
                             ></v-divider>
                         </v-col>
-                        <v-col md="5" col="5" class="text-center d-flex only-pc flex-column align-center">
-                            <div class="mt-10">
+                        <v-col md="4" col="4" class="text-center d-flex only-pc flex-column align-center">
+                            <div class="mt-10 content-l-medium">
                                 {{ t('auth_openapp') }}
                             </div>
                             <qr-code-login

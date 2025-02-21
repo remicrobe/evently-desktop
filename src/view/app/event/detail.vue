@@ -55,21 +55,28 @@
                             </span>
 
                                     <span v-if="remainingTime.months" class="content-h4">
-                                {{ remainingTime.months }}
-                            </span>
+                                        {{ remainingTime.months }}
+                                    </span>
 
                                     <span v-if="remainingTime.months" class="content-xl-semibold mr-2">
-                                mois
-                            </span>
+                                        mois
+                                    </span>
 
                                     <span v-if="remainingTime.days" class="content-h4">
-                                {{ remainingTime.days }}
-                            </span>
+                                        {{ remainingTime.days }}
+                                    </span>
 
-                                    <span v-if="remainingTime.days" class="content-xl-semibold">
-                                jour{{ remainingTime.days > 1 ? 's' : '' }}
-                            </span>
+                                    <span v-if="remainingTime.days" class="content-xl-semibold mr-4">
+                                        jour{{ remainingTime.days > 1 ? 's' : '' }}
+                                    </span>
 
+                                    <span v-if="remainingTime.hours" class="content-h4">
+                                        {{ remainingTime.hours }}
+                                    </span>
+
+                                    <span v-if="remainingTime.hours" class="content-xl-semibold">
+                                        heure{{ remainingTime.hours > 1 ? 's' : '' }}
+                                    </span>
                                 </v-col>
                             </v-row>
 
@@ -149,9 +156,9 @@
                                     <custom-icons class="ml-3 ma-auto" icon="crown" :size="22" color="white"></custom-icons>
                                 </div>
 
-                                <div class="d-flex mt-2" v-for="user in selectedEvent?.joinedUser">
-                                    <span>
-                                        • {{ user?.fullName }}
+                                <div class="d-flex mt-2" v-for="invitation in selectedEvent?.joinedUser">
+                                    <span> <!-- @TODO: Invitation status -->
+                                        • {{ invitation?.user?.fullName }}
                                     </span>
                                 </div>
                             </div>
@@ -268,17 +275,23 @@ const makeItFade = (originalColor: string) => {
 }
 
 const remainingTime = computed (() => {
-    if (!selectedEvent.value?.targetDate) return { years: 0, months: 0, days: 0 };
+    if (!selectedEvent.value?.targetDate) return { years: 0, months: 0, days: 0, hours: 0 };
 
-    const now = DateTime.now ().startOf ('day');
-    const targetDate = DateTime.fromJSDate (selectedEvent.value.targetDate!).startOf ('day');
+    let now = DateTime.now();
+    let targetDate = DateTime.fromJSDate(selectedEvent.value.targetDate!);
 
-    const diff = targetDate.diff (now, ["years", "months", "days"]).toObject ();
+    if (targetDate.hour === 0) {
+        targetDate = targetDate.startOf("day");
+        now = now.startOf('day')
+    }
+
+    const diff = targetDate.diff (now, ["years", "months", "days", "hours"]).toObject ();
 
     return {
         years: diff.years ? Math.floor (diff.years) : 0,
         months: diff.months ? Math.floor (diff.months) : 0,
         days: diff.days ? Math.floor (diff.days) : 0,
+        hours: diff.hours ? Math.floor (diff.hours) : 0,
     };
 });
 </script>

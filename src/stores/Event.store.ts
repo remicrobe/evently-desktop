@@ -73,14 +73,7 @@ export const useEventStore = defineStore({
             const index = this.events.findIndex(ev => ev.id === id);
 
             if (index !== -1) {
-                const eventToUpdate = this.events[index];
-
-                Object.keys(eventData).forEach(key => {
-                    if (key in eventToUpdate) {
-                        // @ts-ignore: On indique à TypeScript qu'on met à jour une propriété de type Event
-                        eventToUpdate[key] = eventData[key];
-                    }
-                });
+                this.events[index] = new Event(response.data);
             }
 
             return true;
@@ -120,6 +113,26 @@ export const useEventStore = defineStore({
                     this.events.push(new Event(response.data.event));
                 }
             }
+            return true;
+        },
+        async joinEvent(inviteToken: string) {
+            const response = await useApiService.post('/events/join', { inviteToken });
+
+            if (!response.success) {
+                useToastStore().success({ key: 'toast_error_joining_event' });
+                return false;
+            }
+
+            const updatedEvent = new Event(response.data);
+
+            const index = this.events.findIndex(ev => ev.id === updatedEvent.id);
+            if (index !== -1) {
+                this.events[index] = updatedEvent;
+            } else {
+                this.events.push(updatedEvent);
+            }
+
+            useToastStore().success({ key: 'toast_success_joining_event' });
             return true;
         }
     },
