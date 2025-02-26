@@ -12,7 +12,7 @@
                 <custom-icons icon="tag" :size="38" color="white" class="mr-1"></custom-icons>
             </v-avatar>
 
-            <span class="content-h4 ma-auto ml-2">{{ category.id ? t('home_update_category') : t('home_add_category') }}</span>
+            <span class="content-h4 ma-auto ml-2">{{ category.id ? t('update_cat_title') : t('create_cat_title') }}</span>
         </v-col>
 
         <v-col md="8" cols="12" class="text-white text-start justify-end d-flex flex-row" align-self="end">

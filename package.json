@@ -1,6 +1,6 @@
 {
   "name": "evently",
-  "version": "0.0.206",
+  "version": "0.0.207",
   "main": "dist-electron/main/index.js",
   "description": "App to track Events !",
   "author": "WEIL Rémi <remi@remi-weil.fr>",
@@ -27,7 +27,8 @@
     "build": "vue-tsc --noEmit && vite build && electron-builder --publish always",
     "preview": "vite preview",
     "icon": "electron-icon-builder --input=./public/logo.png --output=./",
-    "sync:lang": "node sync-i18n.js"
+    "sync:lang": "node sync-i18n.js && npm run check:lang",
+    "check:lang": "node check-i18n.js"
   },
   "devDependencies": {
     "@types/luxon": "^3.4.2",
@@ -35,6 +36,7 @@
     "electron": "^29.1.1",
     "electron-builder": "^24.13.3",
     "electron-builder-notarize": "^1.5.2",
+    "glob": "^11.0.1",
     "google-auth-library": "^9.15.1",
     "google-spreadsheet": "^4.1.4",
     "sass-embedded": "^1.83.4",

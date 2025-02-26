@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { User } from "./User.model";
 import { RandomUtils } from "../utils/random.utils";
-import {Category} from "./Category.model";
+import { Category } from "./Category.model";
 import { Folder } from "./Folder.model";
 import { Invitation } from "./Invitation.model";
 
@@ -59,11 +59,22 @@ export class Event {
 
     getFormattedDate(): string {
         if (!this.targetDate) return "";
-        return DateTime.fromJSDate(this.targetDate).toFormat("ccc d LLLL yyyy");
+
+        if (this.targetDate.getHours() === 0) {
+            return DateTime.fromJSDate(this.targetDate).toFormat("ccc d LLLL yyyy")
+        } else {
+            return DateTime.fromJSDate(this.targetDate).toFormat("ccc d LLLL yyyy HH:mm")
+        }
     }
 
     getDiffToday(): string {
         if (!this.targetDate) return "0";
         return Math.trunc(DateTime.fromJSDate(this.targetDate).startOf('day').diff(DateTime.now().startOf('day'), "days").days).toFixed(0);
+    }
+
+    getDiffInTime(): string {
+        if (!this.targetDate) return "0";
+        let rest = DateTime.fromJSDate(this.targetDate).diff(DateTime.now(), ['hours', "minutes"]).toObject();
+        return `${Math.round(rest.hours!)}h${rest.minutes ? String(Math.round(rest.minutes!)).padStart(2, '0') : ''}`;
     }
 }
