@@ -42,8 +42,12 @@
 
             <v-col md="9" cols="9" class="d-flex flex-column fill-height">
                 <div class="mt-auto text-end">
-                    <template v-if="event?.getDiffToday() === '0'">
+                    <template v-if="event?.getDiffToday() === '0' && event?.targetDate?.getHours() === 0">
                         <div class="content-h3 mt-5">{{ t('global_today') }}</div>
+                    </template>
+                    <template v-else-if="event?.getDiffToday() === '0'">
+                        <p class="content-h3">{{ event?.getDiffInTime() }}</p>
+                        <p class="content-xl-semibold">{{ t('detail_time_remaining') }}</p>
                     </template>
                     <template v-else>
                         <p class="content-h3">{{ event?.getDiffToday() }}</p>
@@ -95,7 +99,7 @@ const category = computed(() => {
 })
 
 const makeItFade = (originalColor: string) => {
-    return ColorUtils.adjustLightness(originalColor, -10)
+    return ColorUtils.adjustLightness(originalColor, -25)
 }
 </script>
 

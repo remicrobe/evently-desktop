@@ -12,7 +12,7 @@
                 <custom-icons icon="folder" :size="38" color="white" class="mr-1"></custom-icons>
             </v-avatar>
 
-            <span class="content-h4 ma-auto ml-2">{{ folder.id ? t('home_update_folder') : t('home_add_folder') }}</span>
+            <span class="content-h4 ma-auto ml-2">{{ folder.id ? t('update_folder_title') : t('create_folder_title') }}</span>
         </v-col>
 
         <v-col md="8" cols="12" class="text-white text-start justify-end d-flex flex-row" align-self="end">

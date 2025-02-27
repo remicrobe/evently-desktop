@@ -31,7 +31,7 @@
         ],
         "type": "distribution",
         "identity": "8TMMB69WBG",
-        "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
+        "artifactName": "${productName}-Mac-Installer.${ext}",
         "hardenedRuntime": true,
         "entitlements": "build/entitlements.mac.plist",
         "entitlementsInherit": "build/entitlements.mac.plist",
@@ -51,7 +51,7 @@
                 ]
             }
         ],
-        "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+        "artifactName": "${productName}-Windows-Setup.${ext}"
     },
     "nsis": {
         "oneClick": false,
@@ -64,6 +64,6 @@
         "target": [
             "AppImage"
         ],
-        "artifactName": "${productName}-Linux-${version}.${ext}"
+        "artifactName": "${productName}-Linux.${ext}"
     }
 }

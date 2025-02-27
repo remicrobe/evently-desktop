@@ -160,6 +160,19 @@
                                     <span> <!-- @TODO: Invitation status -->
                                         • {{ invitation?.user?.fullName }}
                                     </span>
+                                    <custom-icons
+                                        class="ml-3 ma-auto"
+                                        :icon="invitation?.invitationStatus === 'invited' ? 'hero-paper-airplane' : invitation?.invitationStatus === 'maybe' ? 'hero-question-mark-circle' : 'hero-check'"
+                                        :size="22"
+                                        :color="invitation?.invitationStatus === 'invited' ? 'white' : invitation?.invitationStatus === 'maybe' ? 'orange' : 'green'"
+                                    ></custom-icons>
+                                </div>
+
+                                <div class="d-flex mt-2" v-for="user in folder?.joinedUser">
+                                    <span>
+                                        • {{ user?.fullName }}
+                                    </span>
+                                    <custom-icons class="ml-3 ma-auto" icon="hero-check" :size="22" color="green"></custom-icons>
                                 </div>
                             </div>
                         </v-col>

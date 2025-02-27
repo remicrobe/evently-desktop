@@ -94,7 +94,7 @@
                                     position="prepend"
                                     v-bind="props"
                                 >
-                                    {{ t(event.recurrencePattern!) }}
+                                    {{ t(availableRepetition?.find(r => r.value === event?.recurrencePattern!)?.text ?? 'add_event_reccurence') }}
                                 </choose-plain>
                             </template>
 
@@ -136,9 +136,9 @@
                                 </choose-plain>
                             </template>
 
-                            <v-card :max-width="allDay ? '30%' : '64%'" class="bg-black-black100">
+                            <v-card class="bg-black-black100 d-inline-block" style="width:auto">
                                 <v-row>
-                                    <v-col md="6" cols="6" >
+                                    <v-col md="6" cols="6">
                                         <v-date-picker
                                             v-model="event.targetDate"
                                             class="bg-black-black100"
@@ -146,10 +146,11 @@
                                         ></v-date-picker>
                                     </v-col>
 
-                                    <v-col md="6" cols="6" v-if="!allDay">
+                                    <v-col md="6" cols="6">
                                         <v-time-picker
                                             v-model="time"
                                             format="24hr"
+                                            :disabled="allDay"
                                             class="bg-black-black100 mt-5"
                                             hide-header
                                             color="black"
