@@ -14,7 +14,7 @@ export class User {
     constructor(object?: Partial<User>) {
         this.id = object?.id;
         this.username = object?.username;
-        this.firstName = object?.firstName ? this.capitalizeFirstLetter(object.firstName) : undefined;
+        this.firstName = object?.firstName ? `${object?.firstName.charAt(0).toUpperCase()} ${object?.firstName.slice(1).toLowerCase()}` : undefined;
         this.lastName = object?.lastName ? object.lastName.toUpperCase() : undefined;
         this.email = object?.email;
         this.password = object?.password;
@@ -23,10 +23,6 @@ export class User {
         this.isCompleted = object?.isCompleted;
         this.createdAt = object?.createdAt;
         this.deletedAt = object?.deletedAt;
-    }
-
-    private capitalizeFirstLetter(name: string): string {
-        return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
     }
 
     get fullName(): string {
