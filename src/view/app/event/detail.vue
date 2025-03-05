@@ -168,12 +168,14 @@
                                     ></custom-icons>
                                 </div>
 
-                                <div class="d-flex mt-2" v-for="user in folder?.joinedUser">
-                                    <span>
-                                        • {{ user?.fullName }}
-                                    </span>
-                                    <custom-icons class="ml-3 ma-auto" icon="hero-check" :size="22" color="green"></custom-icons>
-                                </div>
+                                <template v-for="user in [...(folder?.joinedUser || []), ...(folder?.user ? [folder.user] : [])]">
+                                    <div class="d-flex mt-2" v-if="user.id !== selectedEvent?.user?.id">
+                                        <span>
+                                            • {{ user?.fullName }}
+                                        </span>
+                                        <custom-icons class="ml-3 ma-auto" icon="hero-check" :size="22" color="green"></custom-icons>
+                                    </div>
+                                </template>
                             </div>
                         </v-col>
                     </v-row>
