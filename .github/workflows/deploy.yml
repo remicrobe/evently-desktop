@@ -19,7 +19,7 @@ jobs:
       - name: Run deploy.sh on remote server via sshpass
         run: |
           sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-          cd evently-desktop
+          cd static/evently-desktop
           git stash
           git stash clear
           git pull
